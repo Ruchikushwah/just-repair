@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->string('job_no')->unique();
+            $table->string('job_no')->unique()->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('service_id')->constrained()->onDelete('cascade');
+            $table->foreignId('service_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('service_on_id')->constrained('service_ons')->onDelete('cascade');
             $table->foreignId('requirement_id')->nullable()->constrained('requirements')->onDelete('cascade');
             $table->date('pref_date');

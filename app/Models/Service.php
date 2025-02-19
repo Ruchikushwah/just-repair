@@ -14,14 +14,4 @@ class Service extends Model
     {
         return $this->hasMany(ServiceOn::class);
     }
-
-    public function requirements()
-    {
-        return $this->hasMany(Requirement::class);
-    }
-
-    public function appointments()
-    {
-        return $this->hasMany(Appointment::class);
-    }
 }
