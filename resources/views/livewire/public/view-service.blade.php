@@ -1,12 +1,12 @@
-<div class="container mx-auto px-6 py-12">
+<div class="container mx-auto px-6 py-12 mt-10 ">
     <!-- Service Details -->
-    <div class="bg-white rounded-lg overflow-hidden">
+    <div class="bg-[#434d85] rounded-lg overflow-hidden p-6 text-white opacity-70">
         <h2 class="text-3xl font-bold">{{ $service->name }}</h2>
-        <p class="text-gray-700 mt-2">{{ $service->description }}</p>
-        <p class="text-xl font-bold mt-2">Fee: ₹{{ $service->service_fee }}</p>
+        <p class="text-gray-100 mt-2">{{ $service->description }}</p>
+
     </div>
     <div class="mt-8">
-        <h3 class="text-2xl font-bold">Select Service Type</h3>
+        <h3 class="text-xl font-medium">Select Service Type</h3>
 
         <select wire:model.change="serviceOnId" class="mt-2 p-2 border rounded-lg w-full">
             <option value="">Choose a service type</option>
@@ -18,7 +18,7 @@
     <!-- Select Requirements (Dynamically Updated) -->
     @if($serviceOnId)
     <div class="mt-6">
-        <h3 class="text-2xl font-bold">Select Requirement</h3>
+        <h3 class="text-xl font-medium">Select Requirement</h3>
 
         <select wire:model.change="requirementId" class="mt-2 p-2 border rounded-lg w-full">
             <option value="">Choose a requirement</option>
@@ -32,16 +32,17 @@
 
 
     @if($serviceOnId && $requirementId)
-    <div class="mt-8 p-6 bg-gray-100 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-4">Book Appointment</h2>
-
+    <h2 class="text-3xl font-semibold  text-center pt-6">Book Appointment</h2>
+    <div class="w-full flex">
+    <!-- Form Container -->
+    <div class="w-8/12 mt-8 px-20 py-6 rounded-lg">
         @if(session()->has('success'))
         <div class="p-3 bg-green-200 text-green-800 rounded-lg">
             {{ session('success') }}
         </div>
         @endif
 
-        <form wire:submit.prevent="bookAppointment">
+        <form wire:submit.prevent="bookAppointment" class="mt-4">
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block">Full Name</label>
@@ -103,10 +104,17 @@
                 </div>
             </div>
 
-            <button type="submit" class="mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg">
+            <button class="bg-[#535C91] text-white px-4 py-2 w-full mt-5 rounded-full hover:bg-[#414A78] transition">
                 Book Appointment
             </button>
         </form>
     </div>
+
+    <!-- Image Container -->
+    <div class="w-4/12 flex items-center justify-center">
+        <img src="\book appointment.jpg" alt="Book Appointment" class="w-full rounded-lg">
+    </div>
+</div>
+
     @endif
 </div>
