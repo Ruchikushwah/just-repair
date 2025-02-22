@@ -8,21 +8,19 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-
+use Livewire\WithPagination;
 
 #[Layout('components.layouts.admin-layout')]
 #[On('manage-service')]
 class ManageService extends Component
 {
     use WithFileUploads;
+    use WithPagination;
 
     public $name;
     public $image;
     public $description;
-    public $requirement = '';
-    public $requirements = [];
-    public $services = [];
-
+ 
     public function saveService()
     {
         $this->validate([
@@ -30,47 +28,31 @@ class ManageService extends Component
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'description' => 'required|string',
         ]);
-        $imagePath = null;
-        if ($this->image) {
-            $imagePath = $this->image->store('image', 'public');
-        }
+      
 
-        $service = Service::create([
+        Service::create([
             'name' => $this->name,
-            'image' => $this->$imagePath,
+            'image' =>  $this->image->store(path: 'image'),
             'description' => $this->description,
         ]);
 
-        foreach ($this->requirements as $requirement) {
-            Requirement::create([
-                'service_id' => $service->id,
-                'requirement_name' => $requirement,
-            ]);
-        }
+      
         session()->flash('message', 'Service Created Successfully!');
         $this->dispatch('manage-service');
 
         $this->reset();
     }
-    public function addRequirement()
-    {
-        $this->requirements[] = $this->requirement;
-        $this->requirement = '';
-    }
 
-    public function removeRequirement($index)
-    {
-        unset($this->requirements[$index]);
-        $this->requirements = array_values($this->requirements);
-    }
+    public function deleteService(Service $service){
 
-    public function mount()
-    {
-        $this->services = Service::all();
-    }
+        $service->delete();
+        $this->render();
 
+    }
     public function render()
     {
-        return view('livewire.admin.manage-service');
+        return view('livewire.admin.manage-service', [
+            "services" => Service::paginate(10)
+        ]);
     }
 }

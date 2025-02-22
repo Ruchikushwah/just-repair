@@ -1,6 +1,8 @@
 <div class="w-full  flex gap-8 px-4 py-6">
     <form wire:submit.prevent="saveService" class="w-4/12 h-[500px]  px-6 py-8  border-teal-600 border  rounded-lg bg-white">
 
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center"> Create Service</h2>
+
         <!-- Service Name -->
         <div class="mb-4">
             <label for="name" class="block text-sm font-medium text-gray-700">Service Name</label>
@@ -12,20 +14,17 @@
         </div>
 
         <div class="mb-4">
-            <label for="image" class="block text-sm font-medium text-gray-700">Service Icon:</label>
-            <input type="file" id="icon" wire:model="image"
+            <label for="image" class="block text-sm font-medium text-gray-700">Service Image:</label>
+            <input type="file" id="image" wire:model="image"
                 class="mt-1 block w-full rounded-md border-gray-300 border bg-white py-2 px-4 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
             @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
             @if ($image)
             <div class="mt-2">
-                <img src="{{ $icon->temporaryUrl() }}" class="h-16 w-16 rounded-full shadow-md" alt="Service Icon Preview">
+                <img src="{{ $image->temporaryUrl() }}" class="h-16 w-16 rounded-full shadow-md" alt="Service Icon Preview">
             </div>
             @endif
         </div>
-
-
-
         <div class="mb-4">
             <label for="description" class="block text-sm font-medium text-gray-700">Description:</label>
             <textarea id="description" wire:model="description"
@@ -33,34 +32,6 @@
                 class="mt-1 block w-full rounded-md border-gray-300 border bg-white py-2 px-4 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter service description"></textarea>
             @error('description') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-        </div>
-
-        <!-- Service Requirements -->
-        <div class="mb-4">
-            <label for="requirement" class="block text-sm font-medium text-gray-700">Requirements:</label>
-            <div class="flex space-x-2 mt-2">
-                <input wire:model="requirement" type="text" id="requirement"
-                    class="w-full border border-gray-300 p-2 rounded-md focus:ring-indigo-500">
-                <button type="button" wire:click="addRequirement"
-                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
-                    Add
-                </button>
-            </div>
-            @error('requirement') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-
-            <!-- List of Requirements -->
-            <div class="mt-4 space-y-2">
-                @foreach($requirements as $index => $req)
-                <div class="flex space-x-2 items-center">
-                    <input type="text" value="{{ $req }}"
-                        class="w-full border border-gray-300 p-2 rounded-md bg-gray-100" readonly>
-                    <button type="button" wire:click="removeRequirement({{ $index }})"
-                        class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition">
-                        Remove
-                    </button>
-                </div>
-                @endforeach
-            </div>
         </div>
 
         <!-- Submit Button -->
@@ -81,11 +52,15 @@
                         </div>
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Id
+                    </th>
+
+                    <th scope="col" class="px-6 py-3">
                         Service name
                     </th>
-                    <th scope="col" class="px-6 py-3">
-                        icon
-                    </th>
+                    <!-- <th scope="col" class="px-6 py-3">
+                        image
+                    </th> -->
                     <th scope="col" class="px-6 py-3">
                         Description
                     </th>
@@ -95,7 +70,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($services as $service)
+                @foreach($services as $index => $service)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="w-4 p-4">
                         <div class="flex items-center">
@@ -104,22 +79,32 @@
                         </div>
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ $index + 1 }}
+                    </th>
+
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $service->name }}
                     </th>
-                    <td class="px-6 py-4">
-                        {{$service->icon}}
-                    </td>
+                    <!-- <td class="px-6 py-4">
+                        {{$service->image}}
+                    </td> -->
                     <td class="px-6 py-4">
                         {{$service->description}}
                     </td>
 
                     <td class="px-6 py-4 gap-2 flex">
                         <a href="#" class="font-medium text-blue-600  hover:underline">Edit</a>
-                        <a href="#" wire:click="delete({{ $service->id }})" class="font-medium text-red-600  hover:underline">delete</a>
+                        <a href="#" wire:confirm wire:click="deleteService({{ $service }})" class="font-medium text-red-600  hover:underline">delete</a>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        @if($services)
+        <div class="mt-3">
+            {{ $services->links() }}
+        </div>
+        @endif
+
     </div>
 </div>
