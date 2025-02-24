@@ -8,16 +8,16 @@ use Livewire\Component;
 
 class Register extends Component
 {
-    public $name, $email,  $contact ,$password, $password_confirmation;
+    public $name, $email,  $contact, $password, $password_confirmation;
 
     protected function rules()
     {
         return [
             'name' => 'required|string|min:3|max:50',
             'email' => 'required|email|unique:users,email',
-             'contact'=>'required|integar|max:10',
+            'contact' => 'required|digits:10|regex:/^[0-9]+$/',
             'password' => 'required|min:6|confirmed',
-           
+
         ];
     }
     public function register()
@@ -28,13 +28,13 @@ class Register extends Component
         User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'contact'=>$validated['contact'],
+            'contact' => $validated['contact'],
             'password' => Hash::make($validated['password']),
         ]);
 
         // Flash message & redirect
         session()->flash('success', 'Registration successful! You can now log in.');
-        return redirect()->route('login');
+        return redirect()->route('auth.login');
     }
 
     public function render()

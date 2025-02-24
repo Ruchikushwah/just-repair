@@ -13,7 +13,7 @@ class ServiceOn extends Model
 
     public function requirement()
     {
-        return $this->hasMany(Requirement::class, 'service_ons_id');
+        return $this->hasMany(Requirement::class);
     }
 
     public function service()

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', Home::class);
+Route::get('/', Home::class)->name('homepage');
 Route::get('/service/{id}', ViewService::class);
 
 Route::prefix('admin')->group(function () {
@@ -28,4 +28,4 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::get('/register', Register::class)->name('auth.register');
-Route::get('/login', Login::class);
+Route::get('/login', Login::class)->name('auth.login');

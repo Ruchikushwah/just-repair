@@ -20,35 +20,81 @@ class ManageService extends Component
     public $name;
     public $image;
     public $description;
- 
+    public $serviceId;
+    public $existingImage;
+    public $isEditing = false;
+
     public function saveService()
     {
         $this->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
             'description' => 'required|string',
         ]);
-      
 
         Service::create([
             'name' => $this->name,
             'image' =>  $this->image->store(path: 'image'),
             'description' => $this->description,
         ]);
-
-      
         session()->flash('message', 'Service Created Successfully!');
         $this->dispatch('manage-service');
 
         $this->reset();
     }
-
-    public function deleteService(Service $service){
-
-        $service->delete();
-        $this->render();
-
+    public function editService(Service $service)
+    {
+        $this->serviceId = $service->id;
+        $this->name = $service->name;
+        $this->description = $service->description;
+        $this->image = null;
+        $this->existingImage = $service->image;
+        $this->isEditing = true;
     }
+
+    public function updateService()
+    {
+        $this->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'description' => 'required|string',
+        ]);
+
+        $service = Service::find($this->serviceId);
+
+        $service->update([
+            'name' => $this->name,
+            'description' => $this->description,
+            'image' => $this->image ? $this->image->store('image', 'public') : $service->image,
+        ]);
+
+        session()->flash('message', 'Service Updated Successfully!');
+        $this->dispatch('manage-service');
+
+        $this->resetFields();
+    }
+    public function resetFields()
+    {
+        $this->reset(['name', 'image', 'description', 'isEditing', 'serviceId']);
+    }
+
+    public function deleteService(Service $serviceId)
+    {
+        $service = Service::findOrFail($serviceId);
+    
+        // Check if there are any related serviceOns (no specific field check)
+        if ($service->serviceOns()->exists()) {
+            session()->flash('error', 'Cannot delete: Service has related serviceons that need to be deleted first.');
+            return;
+        }
+    
+        // Proceed to delete the service if no related serviceons exist
+        $service->delete();
+        session()->flash('message', 'Service deleted successfully!');
+        $this->render();
+    }
+
+
     public function render()
     {
         return view('livewire.admin.manage-service', [

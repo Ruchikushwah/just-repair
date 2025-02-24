@@ -32,7 +32,7 @@
                 <img src="https://picsum.photos/400/400" alt="Service 1" class="rounded-tl-lg">
 
                 <img src="https://picsum.photos/400/300" alt="Service 2" class="rounded-tr-lg">
-                <img src="https://picsum.photos/400/300" alt="Service 3" class=" rounded-bl-lg">
+                <img src="https://picsum.photos/400/300" alt="Service 3" class="rounded-bl-lg">
                 <img src="https://picsum.photos/400/400" alt="Service 4" class="rounded-br-lg -mt-22">
             </div>
         </div>

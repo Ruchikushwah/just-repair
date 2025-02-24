@@ -1,5 +1,5 @@
 <div class="w-full  flex gap-8 px-4 py-6">
-    <form wire:submit.prevent="saveService" class="w-4/12 h-[500px]  px-6 py-8  border-teal-600 border  rounded-lg bg-white">
+    <form wire:submit.prevent="{{ $isEditing ? 'updateService' : 'saveService' }}" class="w-4/12 h-[600px]  px-6 py-8  border-teal-600 border  rounded-lg bg-white">
 
         <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center"> Create Service</h2>
 
@@ -12,7 +12,6 @@
                 placeholder="Enter Service Name">
             @error('name') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
         </div>
-
         <div class="mb-4">
             <label for="image" class="block text-sm font-medium text-gray-700">Service Image:</label>
             <input type="file" id="image" wire:model="image"
@@ -22,6 +21,10 @@
             @if ($image)
             <div class="mt-2">
                 <img src="{{ $image->temporaryUrl() }}" class="h-16 w-16 rounded-full shadow-md" alt="Service Icon Preview">
+            </div>
+            @elseif ($existingImage) <!-- Add this condition for the update case -->
+            <div class="mt-2">
+                <img src="{{ asset('/image/'.$existingImage) }}" class="h-16 w-16 rounded-full shadow-md" alt="Existing Service Icon">
             </div>
             @endif
         </div>
@@ -34,11 +37,14 @@
             @error('description') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="bg-teal-600 text-white  px-4 py-2 rounded-md hover:bg-teal-700 transition w-full">
-            Save Service
+        <button type="submit" class="bg-teal-600 text-white  px-4 py-2 rounded-md hover:bg-teal-700 transition w-full mb-4">
+            {{ $isEditing ? 'Update Service' : 'Create Service' }}
         </button>
 
+        @if($isEditing)
+        <button type="button" wire:click="resetFields" class="bg-gray-500 text-slate-100 hover:bg-gray-00 px-4 py-2 rounded  w-full">Cancel</button>
+        @endif
+    </form>
     </form>
 
     <div class="w-8/12 overflow-x-auto">
@@ -92,9 +98,14 @@
                         {{$service->description}}
                     </td>
 
-                    <td class="px-6 py-4 gap-2 flex">
-                        <a href="#" class="font-medium text-blue-600  hover:underline">Edit</a>
-                        <a href="#" wire:confirm wire:click="deleteService({{ $service }})" class="font-medium text-red-600  hover:underline">delete</a>
+                    <td class="px-6 py-4  flex gap-5">
+                        <a wire:click="editService({{ $service->id }})" class="font-medium text-blue-600  hover:underline">Edit</a>
+                        <button wire:confirm wire:click="deleteService({{ $service->id }})"
+                            class="font-medium text-red-600 hover:underline"
+                          >
+                            Delete
+                        </button>
+
                     </td>
                 </tr>
                 @endforeach
