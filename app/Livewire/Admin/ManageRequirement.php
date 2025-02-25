@@ -26,9 +26,8 @@ class ManageRequirement extends Component
     #[Validate('required|string|max:255')]
     public $requirement = '';
     public $requirementInputs = [];
-
     public $services = [], $service_ons = [];
-
+    public $search = '';
 
     public function save()
     {
@@ -48,8 +47,6 @@ class ManageRequirement extends Component
 
         session()->flash('message', 'Requirements added successfully.');
 
-
-
         $this->reset('service_id', 'service_on_id', 'requirementInputs');
         $this->loadRequirements();
     }
@@ -60,13 +57,11 @@ class ManageRequirement extends Component
         Requirement::with('service', 'serviceOn')->get();
     }
 
-
     public function deleteRequirement($id)
     {
         Requirement::findOrFail($id)->delete();
         $this->loadRequirements();
     }
-
 
     public function addRequirement()
     {
@@ -112,7 +107,14 @@ class ManageRequirement extends Component
 
     public function render()
     {
-        $requirements = Requirement::with('service', 'serviceOn')->paginate(10);
+        $requirements = Requirement::with(['service', 'serviceOn'])
+            ->latest()
+            ->when($this->search, function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('description', 'like', '%' . $this->search . '%');
+            })
+            ->paginate(10);
+
 
         return view('livewire.admin.manage-requirement', [
             'requirements' => $requirements

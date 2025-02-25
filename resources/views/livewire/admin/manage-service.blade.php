@@ -48,6 +48,14 @@
     </form>
 
     <div class="w-8/12 overflow-x-auto">
+        <h2 class="text-xl font-semibold mb-2">Manage Service </h2>
+        <div class="mb-6 relative">
+            <input type="text" wire:model.live.debounce.150ms="search" placeholder="Search Services..." class="w-full rounded-md border-gray-300 border bg-white py-2 pl-10 pr-4 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+            <svg class="absolute left-3 top-2.5 h-5 w-5 text-teal-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
+            </svg>
+        </div>
+
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -98,14 +106,12 @@
                         {{$service->description}}
                     </td>
 
-                    <td class="px-6 py-4  flex gap-5">
-                        <a wire:click="editService({{ $service->id }})" class="font-medium text-blue-600  hover:underline">Edit</a>
+                    <td class="px-6 py-4  flex gap-3">
+                        <a wire:click="editService({{ $service->id }})" class="font-medium bg-teal-600   text-white px-4 py-1 rounded-md">Edit</a>
                         <button wire:confirm wire:click="deleteService({{ $service->id }})"
-                            class="font-medium text-red-600 hover:underline"
-                          >
+                            class="font-medium bg-red-600  text-white px-2 py-1 rounded-md">
                             Delete
                         </button>
-
                     </td>
                 </tr>
                 @endforeach

@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\Requirement;
 use App\Models\Service;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
@@ -23,6 +22,7 @@ class ManageService extends Component
     public $serviceId;
     public $existingImage;
     public $isEditing = false;
+    public $search = '';
 
     public function saveService()
     {
@@ -81,24 +81,24 @@ class ManageService extends Component
     public function deleteService(Service $serviceId)
     {
         $service = Service::findOrFail($serviceId);
-    
-        // Check if there are any related serviceOns (no specific field check)
+
         if ($service->serviceOns()->exists()) {
             session()->flash('error', 'Cannot delete: Service has related serviceons that need to be deleted first.');
             return;
         }
-    
-        // Proceed to delete the service if no related serviceons exist
         $service->delete();
         session()->flash('message', 'Service deleted successfully!');
         $this->render();
     }
 
-
     public function render()
     {
         return view('livewire.admin.manage-service', [
-            "services" => Service::paginate(10)
+            "services" => Service::query()
+            ->when($this->search, function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('description', 'like', '%' . $this->search . '%');
+            })->paginate(10)
         ]);
     }
 }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('requirement_id')->nullable()->constrained('requirements')->onDelete('cascade');
             $table->date('pref_date');
             $table->time('time');
+            $table->string('name')->nullable();
             $table->string('contact_no');
             $table->text('address');
             $table->string('landmark')->nullable();

@@ -19,7 +19,7 @@ class ManageServiceOn extends Component
 
     #[Validate('required|string')]
     public $name = '';
-
+    public $search = '';
     public $services = [];
     public $serviceOnId;
 
@@ -90,7 +90,8 @@ class ManageServiceOn extends Component
     public function render()
     {
         return view('livewire.admin.manage-service-on', [
-            'serviceOns' => ServiceOn::paginate(10),
+            'serviceOns' => ServiceOn::where('name', 'like', '%' . $this->search . '%')
+            ->paginate(10),
         ]);
     }
 }

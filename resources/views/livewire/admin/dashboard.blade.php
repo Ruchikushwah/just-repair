@@ -45,4 +45,23 @@
             </div>
         </div>
     </div>
+    <!-- <div class="grid grid-cols-4 gap-5 mt-10">
+        <div class="w-[160px] h-[150px] rounded-3xl border border-x-black border-y-4 flex items-center justify-center">
+            <h2 class="text-center ">hello</h2>
+
+        </div>
+        <div class="w-[160px] h-[150px] rounded-3xl border border-x-black border-y-4 flex items-center justify-center">
+            <h2 class="text-center ">hello</h2>
+
+        </div>
+        <div class="w-[160px] h-[150px] rounded-3xl border border-x-black border-y-4 flex items-center justify-center">
+            <h2 class="text-center ">hello</h2>
+
+        </div>
+        <div class="w-[160px] h-[150px] rounded-3xl border border-x-black border-y-4 flex items-center justify-center">
+            <h2 class="text-center ">hello</h2>
+
+        </div>
+
+    </div> -->
 </div>
