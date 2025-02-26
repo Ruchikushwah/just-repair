@@ -4,8 +4,13 @@
         <div class="bg-white border border-slate-400 rounded-lg p-6">
             <div class="flex items-center justify-between">
                 <div>
+                 
                     <h3 class="text-xl font-medium text-gray-700">Total Appointments</h3>
-                    <p class="text-3xl font-bold text-blue-600">150</p>
+                    <a href="{{ route('admin.manage-appointment') }}" class="block px-1">
+                        <span class="text-sm text-slate-600">View All</span>
+                    </a>
+                    <p class="text-3xl font-bold text-blue-600">{{$totalAppointments}}</p>
+
                 </div>
                 <div class="bg-blue-100 p-3 rounded-full">
                     <svg class="w-8 h-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -20,7 +25,10 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h3 class="text-xl font-medium text-gray-700">Total Services</h3>
-                    <p class="text-3xl font-bold text-green-600">25</p>
+                    <a href="{{ route('admin.manage-service') }}" class="block px-1">
+                        <span class="text-sm text-slate-600">View All</span>
+                    </a>
+                    <p class="text-3xl font-bold text-green-600">{{ $totalServices }}</p>
                 </div>
                 <div class="bg-green-100 p-3 rounded-full">
                     <svg class="w-8 h-8 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -35,7 +43,10 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h3 class="text-xl font-medium text-gray-700">Total Users</h3>
-                    <p class="text-3xl font-bold text-purple-600">120</p>
+                    <a href="{{ route('admin.manage-user') }}" class="block px-1">
+                        <span class="text-sm text-slate-600">View All</span>
+                    </a>
+                    <p class="text-3xl font-bold text-purple-600">{{$totalUsers}}</p>
                 </div>
                 <div class="bg-purple-100 p-3 rounded-full">
                     <svg class="w-8 h-8 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -45,23 +56,5 @@
             </div>
         </div>
     </div>
-    <!-- <div class="grid grid-cols-4 gap-5 mt-10">
-        <div class="w-[160px] h-[150px] rounded-3xl border border-x-black border-y-4 flex items-center justify-center">
-            <h2 class="text-center ">hello</h2>
-
-        </div>
-        <div class="w-[160px] h-[150px] rounded-3xl border border-x-black border-y-4 flex items-center justify-center">
-            <h2 class="text-center ">hello</h2>
-
-        </div>
-        <div class="w-[160px] h-[150px] rounded-3xl border border-x-black border-y-4 flex items-center justify-center">
-            <h2 class="text-center ">hello</h2>
-
-        </div>
-        <div class="w-[160px] h-[150px] rounded-3xl border border-x-black border-y-4 flex items-center justify-center">
-            <h2 class="text-center ">hello</h2>
-
-        </div>
-
-    </div> -->
+ 
 </div>

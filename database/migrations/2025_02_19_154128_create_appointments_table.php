@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->string('job_no')->unique()->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('service_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('service_on_id')->constrained('service_ons')->onDelete('cascade');
             $table->foreignId('requirement_id')->nullable()->constrained('requirements')->onDelete('cascade');
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('state');
             $table->string('pincode');
-            $table->enum('status', ['accept', 'reject', 'process', 'done', 'close'])->default('process');
+            $table->enum('status', ['accept', 'reject', 'process', 'done', 'close','pending'])->default('pending');
             $table->timestamps();
         });
     }

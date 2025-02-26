@@ -43,7 +43,6 @@ class ViewService extends Component
             'pref_date' => 'required|date',
             'time' => 'required',
         ]);
-
         Appointment::create([
             'user_id' => Auth::id(),
             'service_id' => $this->service->id,
