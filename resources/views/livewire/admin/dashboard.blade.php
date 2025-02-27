@@ -4,7 +4,7 @@
         <div class="bg-white border border-slate-400 rounded-lg p-6">
             <div class="flex items-center justify-between">
                 <div>
-                 
+
                     <h3 class="text-xl font-medium text-gray-700">Total Appointments</h3>
                     <a href="{{ route('admin.manage-appointment') }}" class="block px-1">
                         <span class="text-sm text-slate-600">View All</span>
@@ -19,8 +19,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Total Services Card -->
         <div class="bg-white border border-slate-400  rounded-lg p-6">
             <div class="flex items-center justify-between">
                 <div>
@@ -56,5 +54,5 @@
             </div>
         </div>
     </div>
- 
+
 </div>

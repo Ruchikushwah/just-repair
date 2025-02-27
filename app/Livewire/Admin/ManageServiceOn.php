@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\Service;
 use App\Models\ServiceOn;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -86,12 +87,12 @@ class ManageServiceOn extends Component
         $this->reset(['service_id', 'name', 'serviceOnId', 'isEditing']);
         $this->getData();
     }
-
+    #[Title('Admin |Manage ServiceOn')]
     public function render()
     {
         return view('livewire.admin.manage-service-on', [
             'serviceOns' => ServiceOn::where('name', 'like', '%' . $this->search . '%')
-            ->paginate(10),
+                ->paginate(10),
         ]);
     }
 }

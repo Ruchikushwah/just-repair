@@ -107,6 +107,11 @@
                     </td>
 
                     <td class="px-6 py-4  flex gap-3">
+                        <a href="#" wire:click="viewService({{ $service->id }})"
+                            class="font-medium bg-yellow-600 text-white px-4 py-1 rounded-md">
+                            View
+                        </a>
+
                         <a wire:click="editService({{ $service->id }})" class="font-medium bg-teal-600   text-white px-4 py-1 rounded-md">Edit</a>
                         <button wire:confirm wire:click="deleteService({{ $service->id }})"
                             class="font-medium bg-red-600  text-white px-2 py-1 rounded-md">

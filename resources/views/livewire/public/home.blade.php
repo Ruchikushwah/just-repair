@@ -15,10 +15,10 @@
                     <a href="{{ url('/service/' . $service->id) }}" class="block w-full">
 
                         <div class="flex flex-col items-center bg-slate-100  rounded-lg p-4 border border-[#535C91] border-b-2">
-                            <!-- Service Icon -->
-                            <img src="\ac.png" alt="{{ $service->name }}" class="w-16 h-16 mb-2 ">
+                            
+                            <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->name }}" class="w-16 h-16 mb-2 ">
 
-                            <!-- Service Name -->
+                           
                             <h3 class="text-md font-semibold text-gray-800">{{ $service->name }}</h3>
                         </div>
                     </a>
@@ -33,13 +33,19 @@
 
                 <img src="\mechanic-uses-screwdriver-tighten-screws-tv_1150-24067.jpg" alt="Service 2" class="rounded-tr-lg">
                 <img src="https://picsum.photos/400/300" alt="Service 3" class="rounded-bl-lg">
-                <img src="https://picsum.photos/400/400" alt="Service 4" class="rounded-br-lg -mt-22">
+                <img src="https://picsum.photos/400/420" alt="Service 4" class="rounded-br-lg -mt-24">
             </div>
         </div>
+        <div class="mt-12 flex overflow-x-auto space-x-4 scrollbar-hide">
+            @foreach($banners as $banner)
+            <img src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}" class="min-w-[40%] md:min-w-[30%] h-72 object-cover rounded-lg">
+            @endforeach
+        </div>
+
 
     </div>
 
-  
+
 
 
 

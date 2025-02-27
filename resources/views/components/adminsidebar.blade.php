@@ -22,7 +22,7 @@
         <li><a href="{{route('admin.manage-user')}}" class=" py-3 px-4 hover:bg-gray-700 flex items-center">
                 <i class="fas fa-users w-5 h-5 mr-3"></i> Users
             </a></li>
-        <li><a href="" class="py-3 px-4 hover:bg-gray-700 flex items-center">
+        <li><a href="{{ route('admin.setting')}}" class="py-3 px-4 hover:bg-gray-700 flex items-center">
                 <i class="fas fa-cogs w-5 h-5 mr-3"></i> Settings
             </a></li>
     </ul>

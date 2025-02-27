@@ -15,7 +15,8 @@ class ViewService extends Component
     public $serviceOnId;
     public $requirements = [];
     public $requirementId;
-    public $name, $contact_no, $address, $landmark, $city, $state, $pincode, $pref_date, $time;
+    public $name='';
+    public $contact_no, $address, $landmark, $city, $state, $pincode, $pref_date, $time;
 
     public function mount($id)
     {

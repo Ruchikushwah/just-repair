@@ -8,11 +8,11 @@
     <title>{{ $title ?? env('APP_NAME')}}</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+
 </head>
 
 <body>
-    <x-header/>
+    <x-header />
     {{ $slot }}
     <footer class="fixed bottom-0 w-full bg-white border-slate-200 py-3 border-t">
         <div class="container mx-auto flex justify-center space-x-8 items-center text-gray-600">

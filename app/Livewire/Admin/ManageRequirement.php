@@ -7,6 +7,7 @@ use App\Models\Service;
 use App\Models\ServiceOn;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -57,6 +58,7 @@ class ManageRequirement extends Component
         Requirement::with('service', 'serviceOn')->get();
     }
 
+
     public function deleteRequirement($id)
     {
         Requirement::findOrFail($id)->delete();
@@ -104,7 +106,7 @@ class ManageRequirement extends Component
         $req->delete();
         $this->dispatch('refresh-requirement');
     }
-
+    #[Title('Admin |Manage Requirement')]
     public function render()
     {
         $requirements = Requirement::with(['service', 'serviceOn'])

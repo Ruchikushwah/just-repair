@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\Service;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -78,6 +79,11 @@ class ManageService extends Component
         $this->reset(['name', 'image', 'description', 'isEditing', 'serviceId']);
     }
 
+    public function viewService($id)
+    {
+        return redirect()->route('admin.service-view', ['serviceId' => $id]);
+    }
+
     public function deleteService(Service $serviceId)
     {
         $service = Service::findOrFail($serviceId);
@@ -90,7 +96,7 @@ class ManageService extends Component
         session()->flash('message', 'Service deleted successfully!');
         $this->render();
     }
-
+    #[Title('Admin |Manage Service')]
     public function render()
     {
         return view('livewire.admin.manage-service', [

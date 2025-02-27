@@ -6,6 +6,7 @@ use App\Models\Banner;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Title;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
@@ -61,7 +62,7 @@ class ManageBanner extends Component
         session()->flash('message', 'Banner updated successfully.');
     }
 
-
+    #[Title('Admin | Manage Service')]
     public function render()
     {
         return view('livewire.admin.manage-banner', [

@@ -6,6 +6,13 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
         </svg>
     </div>
+    <select wire:model.change="filter" class="text-white bg-gray-500 px-3 py-2 rounded-md mb-2">
+        <option value="today">Today</option>
+        <option value="yesterday">Yesterday</option>
+        <option value="last_week">Last Week</option>
+        <option value="last_month">Last Month</option>
+        <option value="last_year">Last Year</option>
+    </select>
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -21,6 +28,11 @@
                 <th scope="col" class="px-6 py-3">
                     Date
                 </th>
+                <th scope="col" class="px-6 py-3">
+                    contact
+                </th>
+
+
                 <th scope="col" class="px-6 py-3">
                     Address
                 </th>
@@ -49,18 +61,21 @@
                     {{ $appointment->pref_date }}
                 </td>
                 <td class="px-6 py-4">
+                    {{ $appointment->contact_no }}
+                </td>
+                <td class="px-6 py-4">
                     {{ $appointment->address }}
                 </td>
                 <td class="px-6 py-4">
                     <span class="bg-green-200 text-green-600 px-2 py-1 rounded-md">{{$appointment->status}}</span>
                 </td>
                 <td class="px-6 py-4 flex gap-3">
-                    <a href="#" wire:click="viewAppointment({{ $appointment->id }})" class="font-medium   dark:text-blue-500 bg-teal-600   text-white px-4 py-1 rounded-md">View</a>
+                    <a href="#" wire:click="viewAppointment({{ $appointment->id }})" class="font-medium bg-orange-600   text-white px-4 py-1 rounded-md">View</a>
                     <a href="#" wire:click="deleteAppointment({{$appointment }})" class="font-medium bg-red-600 text-white px-4 py-1 rounded-md ">delete</a>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
-  
+
 </div>

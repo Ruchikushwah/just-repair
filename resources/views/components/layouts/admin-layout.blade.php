@@ -11,10 +11,10 @@
 </head>
 
 <body>
-<x-adminheader/>
+    <x-adminheader />
     <div class="flex">
-    <x-adminsidebar/>
-    {{ $slot }}
+        <x-adminsidebar />
+        {{ $slot }}
     </div>
 
 
