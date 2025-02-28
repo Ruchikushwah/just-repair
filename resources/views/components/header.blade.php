@@ -1,12 +1,8 @@
 <div>
     <nav class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-white shadow-sm rounded-full px-6 py-2 flex items-center justify-between w-[90%] max-w-5xl z-50">
-
-        <!-- Logo Section -->
         <div class="flex items-center space-x-3">
             <img src="/image.jpeg" alt="Logo" class="w-40 h-12 px-1 rounded-full">
         </div>
-
-        <!-- User Info & Menu (Mobile & Desktop) -->
         <div class="flex items-center space-x-4">
             @if(Auth::check())
             <div class="hidden md:flex items-center space-x-2">
@@ -14,22 +10,18 @@
                 <span class="text-gray-600">{{ Auth::user()->name }}</span>
             </div>
             @endif
-
-            <!-- Menu Button (Visible on all screens) -->
             <button id="menu-btn" class="bg-[#535C91] text-white px-4 py-2 rounded-full hover:bg-[#414A78] transition">
                 <i class="fas fa-bars text-xl"></i>
             </button>
         </div>
     </nav>
-
-    <!-- Sidebar (Mobile & Tablet) -->
     <div id="sidebar" class="fixed inset-y-0 left-0 w-68 bg-white shadow-xl transform -translate-x-full transition-transform duration-300 z-50">
         <button id="close-sidebar" class="absolute top-4 right-4 text-gray-600 focus:outline-none">
             <i class="fas fa-times text-2xl"></i>
         </button>
 
         <div class="px-8 bg-white h-screen overflow-y-auto py-3">
-            <h2 class="text-xl font-semibold text-gray-800 mb-8">{{ Auth::user()->name ?? 'Guest' }}</h2>
+            <h2 class="text-xl font-semibold text-gray-800 mb-8">Hii,{{ Auth::user()->name ?? 'Guest' }}</h2>
 
             <a href="#" class="flex items-center space-x-3 py-3 text-gray-700 hover:text-blue-500">
                 <i class="fas fa-clipboard-list"></i> <span>Our Services</span>
@@ -65,8 +57,6 @@
             @endif
         </div>
     </div>
-
-    <!-- Sidebar Toggle Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const menuBtn = document.getElementById('menu-btn');
@@ -79,8 +69,6 @@
                 menuBtn.addEventListener('click', () => {
                     sidebar.classList.toggle('-translate-x-full');
                 });
-
-                // Close Sidebar
                 closeSidebar.addEventListener('click', () => {
                     sidebar.classList.add('-translate-x-full');
                 });

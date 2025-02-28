@@ -54,5 +54,82 @@
             </div>
         </div>
     </div>
+    <div class="w-full flex">
+        <div>
+            <div class="flex flex-1 h-96 mt-6">
+                <canvas id="myChart"></canvas>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                const ctx = document.getElementById('myChart');
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: @json($appointmentLabels), 
+                        datasets: [{
+                            label: 'Appointments by Month',
+                            data: @json($appointmentData),
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 205, 86, 0.6)',
+                                'rgba(255, 99, 132, 0.6)',
+                               
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)',
+                                'rgba(255, 159, 64, 0.6)',
+                                'rgba(233, 30, 99, 0.6)',
+                                'rgba(0, 150, 136, 0.6)',
+                                'rgba(255, 87, 34, 0.6)',
+                                'rgba(63, 81, 181, 0.6)',
+                                'rgba(139, 195, 74, 0.6)',
+                                'rgba(244, 67, 54, 0.6)',
+                            ],
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                });
+            </script>
+        </div>
+        <div>
+            <div class="flex flex-1 h-96 mt-6 p-8" >
+                <canvas id="charts"></canvas>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                const cta = document.getElementById('charts');
+
+                new Chart(cta, {
+                    type: 'pie',
+                    data: {
+                        labels: @json($labels),
+                        datasets: [{
+                            label:'User Logins by Month',
+                            data: @json($data),
+                            backgroundColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(54, 162, 235)',
+                                'rgb(83, 92, 145)',
+                                'rgb(75, 192, 192)',
+                                'rgb(153, 102, 255)',
+                                'rgb(255, 159, 64)',
+                                'rgb(110, 172, 218)'
+                            ],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+
+    </div>
 
 </div>
