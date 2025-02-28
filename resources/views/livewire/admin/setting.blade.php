@@ -49,7 +49,7 @@
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md">Save Changes</button>
+            <button type="submit" class="w-full bg-teal-600 text-white py-2 rounded-md">Save Changes</button>
         </form>
     </div>
 </div>

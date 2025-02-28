@@ -7,6 +7,7 @@
         </svg>
     </div>
     <select wire:model.change="filter" class="text-white bg-gray-500 px-3 py-2 rounded-md mb-2">
+        <option value="all">All</option>
         <option value="today">Today</option>
         <option value="yesterday">Yesterday</option>
         <option value="last_week">Last Week</option>

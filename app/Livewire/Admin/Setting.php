@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 
 #[Layout('components.layouts.admin-layout')]
 class Setting extends Component
@@ -39,7 +40,7 @@ class Setting extends Component
         $user->save();
         session()->flash('message', 'Profile updated successfully!');
     }
-
+    #[Title('Admin | Setting')]
     public function render()
     {
          

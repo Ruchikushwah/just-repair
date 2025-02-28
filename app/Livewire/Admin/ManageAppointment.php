@@ -56,7 +56,7 @@ class ManageAppointment extends Component
                     'last_week' => $query->whereBetween('created_at', [Carbon::now()->subWeek(), Carbon::now()]),
                     'last_month' => $query->whereBetween('created_at', [Carbon::now()->subMonth(), Carbon::now()]),
                     'last_year' => $query->whereBetween('created_at', [Carbon::now()->subYear(), Carbon::now()]),
-                    default => null
+                    default => $query, // Return query to show all by default
                 };
             });
 

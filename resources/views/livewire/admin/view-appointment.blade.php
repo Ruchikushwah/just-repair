@@ -4,7 +4,7 @@
         <div class=" flex justify-between">
 
             <a href="{{ route('admin.manage-appointment') }}" class="font-medium bg-teal-600 text-white px-4 py-1 mb-4 rounded-md">Back</a>
-            
+
             @if (session()->has('message'))
             <div class="text-green-600 font-semibold"> {{ session('message') }}</div>
             @endif
@@ -24,11 +24,11 @@
             </div>
 
             <div class="flex items-center justify-between">
-                <span class="text-gray-700 font-medium">  Name:</span>
+                <span class="text-gray-700 font-medium"> Name:</span>
                 <span class="text-gray-900">{{ $appointment->name }}</span>
             </div>
 
-           
+
             <div class="flex items-center justify-between">
                 <span class="text-gray-700 font-medium"> Service:</span>
                 <span class="text-gray-900">{{ $appointment->service->name }}</span>
