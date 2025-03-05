@@ -20,5 +20,10 @@ class Requirement extends Model
     {
         return $this->belongsTo(ServiceOn::class);
     }
+    public function serviceFee()
+    {
+        return $this->belongsTo(ServiceFees::class, 'service_fee_id');
+    }
+    
 
 }

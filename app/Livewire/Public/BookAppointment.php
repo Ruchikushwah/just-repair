@@ -9,41 +9,61 @@ use App\Models\Requirement;
 use App\Models\Service;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Url;
 
 class BookAppointment extends Component
 {
-    
     public $name = '';
     public $contact_no, $address, $landmark, $city, $state, $pincode, $pref_date, $time;
-    public $serviceOnId, $requirementId;
+    public  $requirementId = [];
+    public $requirementsData = [];
+    public $service;
+    public $selectedServiceOn = null;
+    public $selectedRequirements = [];
+ 
+
+    #[Url]
     public $requirements = [];
 
-    public function selectServiceOn($id)
-    {
-        $this->serviceOnId = $id;
-        $this->requirements = Requirement::where('service_on_id', $id)->get();
-    }
+    #[Url]
+    public $serviceOnId;
 
-    public $services;  
-
-    public function mount()
+    public function mount($serviceId = null, $serviceOnId = null)
     {
         
-        $this->services = Service::all(); 
-    }
+        if ($serviceId) {
+            $this->service = Service::find($serviceId);
 
+            if (!$this->service) {
+                abort(404, 'Service not found');
+            }
+        }
+
+        $this->serviceOnId = Service::find($serviceOnId);
+
+        if ($this->serviceOnId) {
+            $this->selectedServiceOn = ServiceOn::find($this->serviceOnId);
+        }
+
+        $this->requirementsData = Requirement::where('service_id', $serviceId)->get();
+
+        if ($this->requirements) {
+            $this->requirementId = explode(',', $this->requirements);
+            $this->selectedRequirements = Requirement::whereIn('id', $this->requirementId)->get();
+        }
+    }
     public function toggleRequirement($id)
     {
         if (in_array($id, $this->requirementId)) {
+
             $this->requirementId = array_filter($this->requirementId, fn($value) => $value != $id);
         } else {
+
             $this->requirementId[] = $id;
         }
     }
-    // Booking the Appointment
     public function bookAppointment()
     {
-        // Validate the form data
         $this->validate([
             'serviceOnId' => 'required|exists:service_ons,id',
             'requirementId' => 'required|array|min:1',
@@ -58,11 +78,10 @@ class BookAppointment extends Component
             'time' => 'required',
         ]);
 
-        // Create the appointment record
         Appointment::create([
             'user_id' => Auth::id(),
             'service_on_id' => $this->serviceOnId,
-            'requirement_id' => implode(',', $this->requirementId), // Multiple requirement IDs as comma-separated string
+            'requirement_id' => implode(',', $this->requirementId),
             'job_no' => 'JR-' . strtoupper(Str::random(8)),
             'name' => $this->name,
             'contact_no' => $this->contact_no,
@@ -76,10 +95,8 @@ class BookAppointment extends Component
             'status' => 'process',
         ]);
 
-       
         session()->flash('success', 'Appointment booked successfully!');
 
-        // Reset form fields
         $this->reset([
             'serviceOnId',
             'requirementId',
@@ -94,9 +111,10 @@ class BookAppointment extends Component
             'time'
         ]);
     }
-
     public function render()
     {
-        return view('livewire.public.book-appointment');
+        return view('livewire.public.book-appointment', [
+            'selectedRequirements' => $this->selectedRequirements,
+        ]);
     }
 }

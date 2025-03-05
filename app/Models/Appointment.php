@@ -18,6 +18,7 @@ class Appointment extends Model
         'requirement_id',
         'pref_date',
         'time',
+        'name',
         'contact_no',
         'address',
         'landmark',
@@ -33,9 +34,9 @@ class Appointment extends Model
     }
 
     public function service()
-{
-    return $this->belongsTo(Service::class, 'service_on_id');
-}
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
 
     public function serviceOn()
     {
@@ -46,4 +47,8 @@ class Appointment extends Model
     {
         return $this->belongsTo(Requirement::class);
     }
+    // public function serviceFees()
+    // {
+    //     return $this->hasMany(ServiceFees::class, 'service_id', 'service_id');
+    // }
 }

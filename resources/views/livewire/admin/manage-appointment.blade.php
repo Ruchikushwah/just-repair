@@ -68,7 +68,7 @@
                     {{ $appointment->address }}
                 </td>
                 <td class="px-6 py-4">
-                    <span class="bg-green-200 text-green-600 px-2 py-1 rounded-md">{{$appointment->status}}</span>
+                    <span class="bg-green-200 text-green-600 px-2 py-1 rounded-md ">{{$appointment->status}}</span>
                 </td>
                 <td class="px-6 py-4 flex gap-3">
                     <a href="#" wire:click="viewAppointment({{ $appointment->id }})" class="font-medium bg-orange-600   text-white px-4 py-1 rounded-md">View</a>

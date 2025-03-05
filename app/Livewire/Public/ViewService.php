@@ -5,6 +5,7 @@ namespace App\Livewire\Public;
 use App\Models\Appointment;
 use App\Models\Requirement;
 use App\Models\Service;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -14,69 +15,57 @@ class ViewService extends Component
     public $service;
     public $serviceOnId;
     public $requirements = [];
-    public $requirementId;
-    public $name='';
+    public $requirementId = []; // Initialize as an array
+    public $name = '';
     public $contact_no, $address, $landmark, $city, $state, $pincode, $pref_date, $time;
+    public $weekDays;
+    public $selectedRequirements = []; // Initialize as an array
 
     public function mount($id)
     {
-        $this->service = Service::with('serviceOn')->findOrFail($id);
+        $this->service = Service::with('serviceOn', 'serviceFees')->findOrFail($id);
+        $this->weekDays = $this->generateWeekDays();
+    }
+
+    public function generateWeekDays()
+    {
+        $days = [];
+        for ($i = 0; $i < 7; $i++) {
+            $date = Carbon::now()->addDays($i);
+            $days[] = [
+                'label' => $date->format('D d M'),
+                'date' => $date->toDateString(),
+            ];
+        }
+        return $days;
     }
 
     public function updatedServiceOnId($value)
     {
+        // Fetch requirements based on the selected serviceOnId
         $this->requirements = Requirement::where('service_on_id', $value)->get();
-        $this->requirementId = null;
+        $this->requirementId = []; // Reset requirementId
     }
 
-    public function bookAppointment()
+    public function toggleRequirement($requirementId)
     {
-        $this->validate([
-            'serviceOnId' => 'required|exists:service_ons,id',
-            'requirementId' => 'required|exists:requirements,id',
-            'name' => 'required|string|max:255',
-            'contact_no' => 'required|regex:/^[0-9]{10}$/',
-            'address' => 'required|string|max:500',
-            'landmark' => 'nullable|string|max:255',
-            'city' => 'required|string|max:100',
-            'state' => 'required|string|max:100',
-            'pincode' => 'required|digits:6',
-            'pref_date' => 'required|date',
-            'time' => 'required',
-        ]);
-        Appointment::create([
-            'user_id' => Auth::id(),
-            'service_id' => $this->service->id,
-            'service_on_id' => $this->serviceOnId,
-            'requirement_id' => $this->requirementId,
-            'job_no' => 'JR-' . strtoupper(Str::random(8)),
-            'name' => $this->name,
-            'contact_no' => $this->contact_no,
-            'address' => $this->address,
-            'landmark' => $this->landmark,
-            'city' => $this->city,
-            'state' => $this->state,
-            'pincode' => $this->pincode,
-            'pref_date' => $this->pref_date,
-            'time' => $this->time,
-            'status' => 'process',
-        ]);
+        if (in_array($requirementId, $this->selectedRequirements)) {
+            // Remove the requirement if it already exists
+            $this->selectedRequirements = array_filter($this->selectedRequirements, fn($id) => $id != $requirementId);
+        } else {
+            // Add the requirement if it doesn't exist
+            $this->selectedRequirements[] = $requirementId;
+        }
 
-        session()->flash('success', 'Appointment booked successfully!');
+        // Debugging: Log the selected requirements
+        logger('Selected Requirements in ViewService:', $this->selectedRequirements);
+    }
 
-        $this->reset([
-            'serviceOnId',
-            'requirementId',
-            'name',
-            'contact_no',
-            'address',
-            'landmark',
-            'city',
-            'state',
-            'pincode',
-            'pref_date',
-            'time'
-        ]);
+
+    public function GetServiceOnId()
+    {
+        // Return the selected requirements (if needed)
+        return $this->selectedRequirements;
     }
 
     public function render()
