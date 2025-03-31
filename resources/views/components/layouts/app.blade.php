@@ -11,34 +11,33 @@
     @livewireStyles
 </head>
 
-<body>
+<body class="bg-white">
     <x-header />
     {{ $slot }}
-    <footer class="fixed bottom-0 w-full bg-gray-700 border-slate-200 py-3 border-t">
-        <div class="container  mx-auto flex justify-center space-x-8 items-center text-gray-400">
-            <a href="/" class="flex flex-col items-center hover:text-gray-100">
-                <i class="fa-solid fa-house "></i>
+    <footer class="fixed bottom-0 w-full bg-white border-slate-200 py-3 border-t shadow-sm">
+        <div class="container mx-auto flex justify-center space-x-8 items-center text-gray-600">
+            <a href="/" class="flex flex-col items-center hover:text-gray-900">
+                <i class="fa-solid fa-house"></i>
                 <span class="text-sm">Home</span>
             </a>
 
-            <a href=" {{ route('my-booking')}}" class="flex flex-col items-center hover:text-gray-100">
+            <a href="{{ route('my-booking') }}" class="flex flex-col items-center hover:text-gray-900">
                 <i class="fa-regular fa-calendar"></i>
                 <span class="text-sm">My Booking</span>
             </a>
 
-            <a href="https://wa.me/your-number" target="_blank" class="flex flex-col items-center hover:text-gray-100">
+            <a href="https://wa.me/your-number" target="_blank" class="flex flex-col items-center hover:text-gray-900">
                 <i class="fa-brands fa-whatsapp"></i>
                 <span class="text-sm">WhatsApp</span>
             </a>
 
-            <a href="tel:7280080080" class="flex flex-col items-center hover:text-gray-100">
+            <a href="tel:7280080080" class="flex flex-col items-center hover:text-gray-900">
                 <i class="fa-solid fa-phone"></i>
                 <span class="text-sm">7280080080</span>
             </a>
         </div>
     </footer>
     @livewireScripts
-
 </body>
 
 </html>

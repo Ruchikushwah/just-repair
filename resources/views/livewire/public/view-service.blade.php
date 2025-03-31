@@ -1,6 +1,5 @@
 <div>
-    <div class="container flex-col mx-auto px-6 py-8 flex flex-wrap lg:flex-nowrap gap-10 mb-4">
-
+    <div class="container flex-col mx-auto px-6 py-8 flex flex-wrap lg:flex-nowrap gap-10 mb-4 mt-10">
         <div class="relative w-full h-58 bg-cover bg-center rounded-lg overflow-hidden" style="background-image: url('/path/to/your/image.png');">
             <div class="absolute inset-0 bg-[#535C91] opacity-50"></div>
             <div class="relative z-10 w-full lg:w-1/2 text-white p-8">
@@ -31,10 +30,8 @@
                 @endforeach
 
             </select>
-
             <div class="">
                 <h3 class="text-2xl font-semibold mb-4">Select Service Type</h3>
-
                 <select wire:model.change="serviceOnId" class="p-3 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#535C91]">
                     <option value="">Choose a service type</option>
                     @foreach($service->serviceOn as $serviceOn)
@@ -53,11 +50,10 @@
         </div>
         @if(count($selectedRequirements) > 0)
         <a href="{{ route('book-appointment', ['serviceId' => $service->id, 'serviceOnId' =>$serviceOn->id, 'requirements' => implode(',', $selectedRequirements)]) }}"
-            class="bg-[#ff0080] text-white px-6 py-3 rounded-full hover:bg-[#e60073] transition-all duration-300 shadow-md">
+            class="bg-[#5b3749] text-white px-6 py-3 rounded-full hover:bg-[#e60073] transition-all duration-300 shadow-md">
             Book Appointment
         </a>
         @endif
-
     </div>
     <div class="w-full rounded-lg overflow-hidden px-4 py-2 text-black opacity-90 ">
         <div id="pricing" class="tab-content hidden">
