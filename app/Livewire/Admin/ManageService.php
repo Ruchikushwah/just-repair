@@ -32,17 +32,21 @@ class ManageService extends Component
             'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
             'description' => 'required|string',
         ]);
-
+    
+        $imagePath = $this->image->store('images/services', 'public');
+    
         Service::create([
             'name' => $this->name,
-            'image' =>  $this->image->store(path: 'image'),
+            'image' => $imagePath,
             'description' => $this->description,
         ]);
+    
         session()->flash('message', 'Service Created Successfully!');
         $this->dispatch('manage-service');
-
+    
         $this->reset();
     }
+    
     public function editService(Service $service)
     {
         $this->serviceId = $service->id;
@@ -57,23 +61,30 @@ class ManageService extends Component
     {
         $this->validate([
             'name' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'description' => 'required|string',
         ]);
-
+    
         $service = Service::find($this->serviceId);
-
+    
+        if ($this->image) {
+            $imagePath = $this->image->store('images/services', 'public');
+        } else {
+            $imagePath = $service->image;
+        }
+    
         $service->update([
             'name' => $this->name,
             'description' => $this->description,
-            'image' => $this->image ? $this->image->store('image', 'public') : $service->image,
+            'image' => $imagePath,
         ]);
-
+    
         session()->flash('message', 'Service Updated Successfully!');
         $this->dispatch('manage-service');
-
+    
         $this->resetFields();
     }
+    
     public function resetFields()
     {
         $this->reset(['name', 'image', 'description', 'isEditing', 'serviceId']);

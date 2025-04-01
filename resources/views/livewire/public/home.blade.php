@@ -82,7 +82,7 @@
 
         <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mt-8">
             @foreach($services as $service)
-            <a href="{{ url('/service/' . $service->id) }}" class="block w-full transform hover:scale-105 transition-transform duration-300">
+            <a href="{{ asset('storage/' . $service->image) }}" class="block w-full transform hover:scale-105 transition-transform duration-300">
                 <div class="flex flex-col items-center bg-gray-50 rounded-lg p-6 border border-[#535b88d2] border-b-4 hover:shadow-lg hover:bg-gray-100 transition-all">
                     <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->name }}" class="w-16 h-16 mb-4 object-cover">
                     <h3 class="text-md font-semibold text-gray-900 text-center">{{ $service->name }}</h3>
@@ -90,6 +90,7 @@
             </a>
             @endforeach
         </div>
+        
     </section>
     <section class="py-12 px-6 bg-slate-200">
         <div class="container mx-auto px-4">
