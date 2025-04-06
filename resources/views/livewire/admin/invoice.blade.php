@@ -2,7 +2,7 @@
     <div class="flex justify-between items-center">
         <img src="/image.jpeg" alt="Company Logo" class="h-12">
         <div class="text-right">
-            <h2 class="text-2xl font-semibold text-gray-800">Just Repair</h2>
+            <h2 class="text-2xl font-semibold text-gray-800">Helphar</h2>
             <p class="text-sm">Naka Chowk, Purnea City, Bihar - 854301</p>
             <p class="text-sm">Phone: 72-800-800-80</p>
             <p class="text-sm">Email: justrepair.info@gmail.com</p>
