@@ -1,57 +1,180 @@
 <div>
-    <nav id="navbar" class="fixed top-0 left-0 right-0 mx-auto shadow-sm rounded-full px-10 py-2 flex items-center justify-between w-[90%] max-w-7xl z-10 transition-all duration-300">
-        <div class="flex items-center space-x-3">
-            <a href="/">
-            <img src="/image.jpeg" alt="Logo" class="w-40 h-12 px-1 rounded-full">
+    <!-- Main Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 mx-auto shadow-md rounded-xl px-6 py-3 flex items-center justify-between w-[95%] max-w-7xl z-20 transition-all duration-300 bg-white/95 backdrop-blur-sm">
+        <div class="flex items-center">
+            <a href="/" class="flex items-center">
+                <img src="/image.jpeg" alt="Just Repair Logo" class="w-36 h-10 object-contain">
             </a>
         </div>
-        <div class="flex items-center space-x-4">
-            @if(Auth::check())
-                <div class="hidden md:flex items-center space-x-2">
-                    <img src="{{ Auth::user()->profile_picture ? asset(Auth::user()->profile_picture) : asset('/default-avatar.jpg') }}" alt="User Icon" class="w-8 h-8 rounded-full">
-                    <span class="text-gray-600">{{ Auth::user()->name }}</span>
+        
+        <div class="hidden md:flex items-center space-x-6">
+            <a href="/" class="text-gray-700 hover:text-[#535C91] font-medium transition-colors">Home</a>
+            <div class="relative group">
+                <button class="text-gray-700 hover:text-[#535C91] font-medium flex items-center transition-colors">
+                    Services <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </button>
+                <div class="absolute left-0 mt-2 w-64 bg-white shadow-lg rounded-lg py-2 z-20 hidden group-hover:block">
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-[#EEF2FF] hover:text-[#535C91]">
+                        <i class="fas fa-snowflake mr-2"></i> AC Repair & Service
+                    </a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-[#EEF2FF] hover:text-[#535C91]">
+                        <i class="fas fa-temperature-low mr-2"></i> Refrigerator Repair
+                    </a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-[#EEF2FF] hover:text-[#535C91]">
+                        <i class="fas fa-tint mr-2"></i> Water Purifier Service
+                    </a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-[#EEF2FF] hover:text-[#535C91]">
+                        <i class="fas fa-washer mr-2"></i> Washing Machine Repair
+                    </a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-[#EEF2FF] hover:text-[#535C91]">
+                        <i class="fas fa-hot-tub mr-2"></i> Geyser Repair
+                    </a>
                 </div>
+            </div>
+            <a href="{{ route('my-booking') }}" class="text-gray-700 hover:text-[#535C91] font-medium transition-colors">My Bookings</a>
+            <a href="#" class="text-gray-700 hover:text-[#535C91] font-medium transition-colors">About Us</a>
+            <a href="#" class="text-gray-700 hover:text-[#535C91] font-medium transition-colors">Contact</a>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+            <!-- Phone Number with Icon -->
+            <a href="tel:7280080080" class="hidden md:flex items-center text-[#535C91] hover:text-[#414A78]">
+                <i class="fas fa-phone-alt mr-2"></i>
+                <span class="font-medium">7280080080</span>
+            </a>
+            
+            @if(Auth::check())
+                <div class="hidden md:flex items-center space-x-3 border-l pl-4 border-gray-200">
+                    <img src="{{ Auth::user()->profile_picture ? asset(Auth::user()->profile_picture) : asset('/default-avatar.jpg') }}" alt="User Icon" class="w-9 h-9 rounded-full border-2 border-[#EEF2FF]">
+                    <div class="flex flex-col">
+                        <span class="text-sm font-medium text-gray-800">{{ Auth::user()->name }}</span>
+                        <span class="text-xs text-gray-500">Customer</span>
+                    </div>
+                </div>
+            @else
+                <a href="{{ route('auth.login') }}" class="hidden md:block text-[#535C91] hover:text-[#414A78] font-medium">Login</a>
             @endif
-            <button id="menu-btn" class="bg-[#535C91] text-white px-4 py-2 rounded-xl hover:bg-[#414A78] transition">
-                <i class="fas fa-bars text-xl"></i>
+            
+            <button id="menu-btn" class="bg-[#535C91] text-white p-2.5 rounded-lg hover:bg-[#414A78] transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#535C91]">
+                <i class="fas fa-bars text-lg"></i>
             </button>
         </div>
     </nav>
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-68 bg-white shadow-xl transform -translate-x-full transition-transform duration-300 z-40">
-        <button id="close-sidebar" class="absolute top-4 right-4 text-gray-600 focus:outline-none">
-            <i class="fas fa-times text-2xl"></i>
-        </button>
-        <div class="px-8 bg-white h-screen overflow-y-auto py-3">
-            <h2 class="text-xl font-semibold text-gray-800 mb-8">Hii, {{ Auth::user()->name ?? 'Guest' }}</h2>
-            <a href="#" class="flex items-center space-x-3 py-3 text-gray-700 hover:text-blue-500">
-                <i class="fas fa-clipboard-list"></i> <span>Our Services</span>
-            </a>
-            <a href="{{ route('my-booking') }}" class="flex items-center space-x-3 py-3 text-gray-700 hover:text-blue-500">
-                <i class="fas fa-calendar-check"></i> <span>My Booking</span>
-            </a>
-            <a href="#" class="flex items-center space-x-3 py-3 text-gray-700 hover:text-blue-500">
-                <i class="fas fa-history"></i> <span>Track your Appointment</span>
-            </a>
-            <a href="#" class="flex items-center space-x-3 py-3 text-gray-700 hover:text-blue-500">
-                <i class="fas fa-info-circle"></i> <span>About Us</span>
-            </a>
-            <a href="#" class="flex items-center space-x-3 py-3 text-gray-700 hover:text-blue-500 mb-2">
-                <i class="fas fa-file-alt"></i> <span>Terms & Conditions</span>
-            </a>
-            @if (Auth::check())
-                <a href="{{ route('auth.logout') }}" class="text-red-400">Logout</a>
-            @else
-                <a href="{{ route('auth.login') }}" class="text-gray-600 hover:text-blue-500 flex items-center space-x-3 mb-3">
-                    <i class="fas fa-sign-in-alt"></i>
-                    <span>Sign in</span>
-                </a>
-                <a href="{{ route('auth.register') }}" class="text-gray-600 hover:text-blue-500 flex items-center space-x-3">
-                    <i class="fas fa-user-plus"></i>
-                    <span>Sign up</span>
-                </a>
+    
+    <!-- Mobile Sidebar -->
+    <div id="sidebar" class="fixed inset-y-0 right-0 w-80 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto">
+        <div class="flex justify-between items-center p-6 border-b">
+            <h2 class="text-xl font-bold text-gray-800">Just Repair</h2>
+            <button id="close-sidebar" class="text-gray-500 hover:text-gray-800 focus:outline-none">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        
+        <div class="p-6">
+            @if(Auth::check())
+                <div class="flex items-center space-x-3 pb-4 mb-4 border-b border-gray-100">
+                    <img src="{{ Auth::user()->profile_picture ? asset(Auth::user()->profile_picture) : asset('/default-avatar.jpg') }}" alt="User Icon" class="w-12 h-12 rounded-full">
+                    <div>
+                        <p class="font-medium text-gray-800">{{ Auth::user()->name }}</p>
+                        <p class="text-sm text-gray-500">{{ Auth::user()->email }}</p>
+                    </div>
+                </div>
             @endif
+            
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-2 gap-3 mb-6">
+                <a href="tel:7280080080" class="flex flex-col items-center justify-center bg-[#EEF2FF] p-4 rounded-lg hover:bg-[#535C91] hover:text-white transition-colors group">
+                    <i class="fas fa-phone-alt text-[#535C91] group-hover:text-white mb-2 text-xl"></i>
+                    <span class="text-sm font-medium">Call Us</span>
+                </a>
+                <a href="https://wa.me/7280080080" class="flex flex-col items-center justify-center bg-[#EEF2FF] p-4 rounded-lg hover:bg-[#25D366] hover:text-white transition-colors group">
+                    <i class="fab fa-whatsapp text-[#535C91] group-hover:text-white mb-2 text-xl"></i>
+                    <span class="text-sm font-medium">WhatsApp</span>
+                </a>
+                <a href="{{ route('my-booking') }}" class="flex flex-col items-center justify-center bg-[#EEF2FF] p-4 rounded-lg hover:bg-[#535C91] hover:text-white transition-colors group">
+                    <i class="fas fa-calendar-check text-[#535C91] group-hover:text-white mb-2 text-xl"></i>
+                    <span class="text-sm font-medium">My Bookings</span>
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center bg-[#EEF2FF] p-4 rounded-lg hover:bg-[#535C91] hover:text-white transition-colors group">
+                    <i class="fas fa-history text-[#535C91] group-hover:text-white mb-2 text-xl"></i>
+                    <span class="text-sm font-medium">Track Status</span>
+                </a>
+            </div>
+            
+            <!-- Main Menu -->
+            <div class="space-y-6">
+                <div>
+                    <h3 class="uppercase text-xs font-semibold text-gray-500 tracking-wider mb-3">Navigation</h3>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="/" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
+                                <i class="fas fa-home mr-3 w-5 text-center"></i> Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#about" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
+                                <i class="fas fa-info-circle mr-3 w-5 text-center"></i> About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#contact" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
+                                <i class="fas fa-envelope mr-3 w-5 text-center"></i> Contact Support
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="uppercase text-xs font-semibold text-gray-500 tracking-wider mb-3">Services</h3>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
+                                <i class="fas fa-snowflake mr-3 w-5 text-center"></i> AC Repair & Service
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
+                                <i class="fas fa-temperature-low mr-3 w-5 text-center"></i> Refrigerator Repair
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
+                                <i class="fas fa-tint mr-3 w-5 text-center"></i> Water Purifier Service
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
+                                <i class="fas fa-washer mr-3 w-5 text-center"></i> Washing Machine Repair
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
+                                <i class="fas fa-hot-tub mr-3 w-5 text-center"></i> Geyser Repair
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                @if (Auth::check())
+                    <div class="pt-4 border-t border-gray-100">
+                        <a href="{{ route('auth.logout') }}" class="flex items-center text-red-500 hover:text-red-600 py-2">
+                            <i class="fas fa-sign-out-alt mr-3 w-5 text-center"></i> Logout
+                        </a>
+                    </div>
+                @else
+                    <div class="pt-4 border-t border-gray-100 space-y-3">
+                        <a href="{{ route('auth.login') }}" class="block w-full bg-[#535C91] text-white text-center py-3 rounded-lg hover:bg-[#414A78] transition-colors">
+                            Sign In
+                        </a>
+                        <a href="{{ route('auth.register') }}" class="block w-full bg-white border border-[#535C91] text-[#535C91] text-center py-3 rounded-lg hover:bg-[#EEF2FF] transition-colors">
+                            Create Account
+                        </a>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
+    
     <!-- Script for Sidebar Toggle and Navbar Scroll -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -64,20 +187,37 @@
             if (menuBtn && sidebar && closeSidebar) {
                 // Open/Close Sidebar
                 menuBtn.addEventListener('click', () => {
-                    sidebar.classList.toggle('-translate-x-full');
+                    sidebar.classList.toggle('translate-x-full');
                 });
                 closeSidebar.addEventListener('click', () => {
-                    sidebar.classList.add('-translate-x-full');
+                    sidebar.classList.add('translate-x-full');
+                });
+                
+                // Close sidebar when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!sidebar.contains(e.target) && e.target !== menuBtn && !sidebar.classList.contains('translate-x-full')) {
+                        sidebar.classList.add('translate-x-full');
+                    }
                 });
             }
-            // Change navbar background on scroll
+            
+            // Change navbar on scroll
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    navbar.classList.add('bg-white');
+                if (window.scrollY > 20) {
+                    navbar.classList.add('shadow-lg');
+                    navbar.classList.remove('mt-4');
+                    navbar.classList.add('bg-white/95');
                 } else {
-                    navbar.classList.remove('bg-white');
+                    navbar.classList.remove('shadow-lg');
+                    navbar.classList.add('mt-4');
+                    navbar.classList.remove('bg-white/95');
                 }
             });
+            
+            // Initial navbar state
+            if (window.scrollY <= 20) {
+                navbar.classList.add('mt-4');
+            }
         });
     </script>
 </div>
