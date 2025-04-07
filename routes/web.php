@@ -32,7 +32,7 @@ Route::get('/track-appointment', TrackAppointment::class)->name('track-appointme
 
 Route::middleware(['auth'])->group(function () {
     Route::middleware(AdminMiddleware::class)->group(function () {
-        Route::get('/admin-dashboard', Dashboard::class);
+        Route::get('/admin-dashboard', Dashboard::class)->name('admin.dashboard');
 
         Route::get('/manage-service', ManageService::class)->name('admin.manage-service');
         Route::get('/manage-service-on', ManageServiceOn::class)->name('admin.manage-service-on');
