@@ -206,11 +206,9 @@
                 if (window.scrollY > 20) {
                     navbar.classList.add('shadow-lg');
                     navbar.classList.remove('mt-4');
-                    navbar.classList.add('bg-white/95');
                 } else {
                     navbar.classList.remove('shadow-lg');
                     navbar.classList.add('mt-4');
-                    navbar.classList.remove('bg-white/95');
                 }
             });
             

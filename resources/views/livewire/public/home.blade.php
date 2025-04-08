@@ -95,7 +95,7 @@
 <div class="bg-gray-50">
     <!-- Hero Section with Booking Form -->
     <section class="hero min-h-[750px] flex items-center">
-        <div class="container mx-auto px-4 sm:px-8 py-16 mt-10 hero-content">
+        <div class="container mx-auto px-4 sm:px-[10%] py-16 mt-10 hero-content">
             <div class="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center">
                 <!-- Left: Hero Text -->
                 <div class="lg:w-1/2 text-white space-y-6 animate-fade-in">
