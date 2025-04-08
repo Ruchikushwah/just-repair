@@ -110,42 +110,64 @@
                             <i class="fas fa-calendar-check text-xl mr-3"></i>
                             <span class="text-xl">Book Repair Service Online</span>
                         </div>
-                        <div class="p-6">
+                        <div class="p-6 relative">
                             <form wire:submit.prevent="bookService" class="space-y-4">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="name" class="block text-gray-700 text-sm font-medium mb-2">Full Name</label>
-                                        <input type="text" id="name" wire:model="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent" placeholder="Your Name">
-                                    </div>
-                                    <div>
-                                        <label for="phone" class="block text-gray-700 text-sm font-medium mb-2">Phone Number</label>
-                                        <input type="tel" id="phone" wire:model="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent" placeholder="10-digit mobile number">
+                                <!-- Add loading indicator -->
+                                <div wire:loading wire:target="bookService" class="absolute inset-0 bg-white/80 flex items-center justify-center z-10 rounded-b-lg">
+                                    <div class="text-center">
+                                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-solid border-[#535C91] border-r-transparent"></div>
+                                        <p class="mt-2 text-sm text-gray-600">Processing your booking...</p>
                                     </div>
                                 </div>
+                                
+                                <!-- Show error messages if any -->
+                                @if (session()->has('error'))
+                                    <div class="bg-red-100 text-red-700 p-3 rounded-lg text-sm">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="name" class="block text-gray-700 text-sm font-medium mb-2">Full Name *</label>
+                                        <input type="text" id="name" wire:model.blur="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent" placeholder="Your Name">
+                                        @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                                    </div>
+                                    <div>
+                                        <label for="phone" class="block text-gray-700 text-sm font-medium mb-2">Phone Number *</label>
+                                        <input type="tel" id="phone" wire:model.blur="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent" placeholder="10-digit mobile number">
+                                        @error('phone') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                                    </div>
+                                </div>
+                                
                                 <div>
-                                    <label for="service" class="block text-gray-700 text-sm font-medium mb-2">Select Service</label>
-                                    <select id="service" wire:model="selectedService" wire:change="loadServiceOns" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent">
+                                    <label for="service" class="block text-gray-700 text-sm font-medium mb-2">Select Service *</label>
+                                    <select id="service" wire:model.live="selectedService" wire:change="loadServiceOns" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent">
                                         <option value="">Select a service</option>
                                         @foreach($services as $service)
                                             <option value="{{ $service->id }}">{{ $service->name }}</option>
                                         @endforeach
                                     </select>
+                                    @error('selectedService') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                                 </div>
+                                
                                 @if(!empty($serviceOns))
                                 <div>
-                                    <label for="service_on" class="block text-gray-700 text-sm font-medium mb-2">Select Type/Model</label>
-                                    <select id="service_on" wire:model="selectedServiceOn" wire:change="loadServiceFees" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent">
+                                    <label for="service_on" class="block text-gray-700 text-sm font-medium mb-2">Select Type/Model *</label>
+                                    <select id="service_on" wire:model.live="selectedServiceOn" wire:change="loadServiceFees" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent">
                                         <option value="">Select type or model</option>
                                         @foreach($serviceOns as $serviceOn)
                                             <option value="{{ $serviceOn->id }}">{{ $serviceOn->name }}</option>
                                         @endforeach
                                     </select>
+                                    @error('selectedServiceOn') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                                 </div>
                                 @endif
+                                
                                 @if(!empty($serviceFees))
                                 <div>
                                     <label for="service_fee" class="block text-gray-700 text-sm font-medium mb-2">Select Service Type</label>
-                                    <select id="service_fee" wire:model="selectedServiceFee" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent">
+                                    <select id="service_fee" wire:model.blur="selectedServiceFee" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent">
                                         <option value="">Select service type</option>
                                         @foreach($serviceFees as $serviceFee)
                                             <option value="{{ $serviceFee->id }}">{{ $serviceFee->name }} - ₹{{ $serviceFee->fees }}</option>
@@ -153,29 +175,60 @@
                                     </select>
                                 </div>
                                 @endif
+                                
                                 <div>
-                                    <label for="address" class="block text-gray-700 text-sm font-medium mb-2">Address</label>
-                                    <textarea id="address" wire:model="address" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent" placeholder="Your complete address"></textarea>
+                                    <label for="address" class="block text-gray-700 text-sm font-medium mb-2">Address *</label>
+                                    <textarea id="address" wire:model.blur="address" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent" placeholder="Your complete address"></textarea>
+                                    @error('address') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                                 </div>
-                                <div class="grid grid-cols-2 gap-4">
+                                
+                                <!-- Add missing location fields -->
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
-                                        <label for="date" class="block text-gray-700 text-sm font-medium mb-2">Preferred Date</label>
-                                        <input type="date" id="date" wire:model="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent">
+                                        <label for="city" class="block text-gray-700 text-sm font-medium mb-2">City *</label>
+                                        <input type="text" id="city" wire:model.blur="city" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent" placeholder="City">
+                                        @error('city') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                                     </div>
                                     <div>
-                                        <label for="time" class="block text-gray-700 text-sm font-medium mb-2">Preferred Time</label>
-                                        <select id="time" wire:model="time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent">
+                                        <label for="state" class="block text-gray-700 text-sm font-medium mb-2">State *</label>
+                                        <input type="text" id="state" wire:model.blur="state" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent" placeholder="State">
+                                        @error('state') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                                    </div>
+                                    <div>
+                                        <label for="pincode" class="block text-gray-700 text-sm font-medium mb-2">Pincode *</label>
+                                        <input type="text" id="pincode" wire:model.blur="pincode" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent" placeholder="6-digit pincode">
+                                        @error('pincode') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label for="landmark" class="block text-gray-700 text-sm font-medium mb-2">Landmark (Optional)</label>
+                                    <input type="text" id="landmark" wire:model.blur="landmark" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent" placeholder="Nearby landmark">
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="date" class="block text-gray-700 text-sm font-medium mb-2">Preferred Date *</label>
+                                        <input type="date" id="date" wire:model.blur="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent">
+                                        @error('date') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                                    </div>
+                                    <div>
+                                        <label for="time" class="block text-gray-700 text-sm font-medium mb-2">Preferred Time *</label>
+                                        <select id="time" wire:model.blur="time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent">
                                             <option value="">Select time slot</option>
                                             <option value="morning">Morning (9AM - 12PM)</option>
                                             <option value="afternoon">Afternoon (12PM - 3PM)</option>
                                             <option value="evening">Evening (3PM - 6PM)</option>
                                         </select>
+                                        @error('time') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                                     </div>
                                 </div>
+                                
                                 <div>
                                     <label for="issue" class="block text-gray-700 text-sm font-medium mb-2">Issue Description (Optional)</label>
-                                    <textarea id="issue" wire:model="issue" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent" placeholder="Briefly describe the issue you're facing"></textarea>
+                                    <textarea id="issue" wire:model.blur="issue" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent" placeholder="Briefly describe the issue you're facing"></textarea>
                                 </div>
+                                
                                 <button type="submit" class="w-full bg-[#535C91] text-white py-3 rounded-lg font-semibold hover:bg-[#414A78] transition duration-300 flex items-center justify-center">
                                     <i class="fas fa-tools mr-2"></i> Book Repair Service
                                 </button>
@@ -418,7 +471,85 @@
             </div>
         </div>
     </section>
-    <!-- Custom CSS for Automatic Scrolling -->
+    <!-- Booking Success Modal -->
+    @if($showSuccessModal)
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="max-w-md w-full bg-white rounded-lg shadow-2xl overflow-hidden animate-fade-in">
+            <div class="bg-[#535C91] px-6 py-8 text-white text-center">
+                <div class="mb-4 success-animation">
+                    <div class="checkmark-circle">
+                        <div class="checkmark-stem"></div>
+                        <div class="checkmark-kick"></div>
+                    </div>
+                </div>
+                <h1 class="text-2xl font-bold mb-2">Booking Successful!</h1>
+                <p class="text-lg">Your repair service has been booked</p>
+            </div>
+            
+            <div class="p-6">
+                <div class="bg-gray-50 p-4 rounded-lg mb-6 text-center">
+                    <p class="text-sm text-gray-600 mb-1">Your Job Number</p>
+                    <h3 class="text-2xl font-mono font-bold text-[#535C91]">{{ $jobId }}</h3>
+                    <p class="text-xs text-gray-500 mt-1">(Save this for future reference)</p>
+                </div>
+                
+                <div class="space-y-4 mb-6">
+                    <div class="flex items-center">
+                        <div class="bg-[#EEF2FF] p-2 rounded-full">
+                            <i class="fas fa-calendar-check text-[#535C91]"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-700">Appointment Date</p>
+                            <p class="text-sm text-gray-600">{{ \Carbon\Carbon::parse($date)->format('d M, Y') }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <div class="bg-[#EEF2FF] p-2 rounded-full">
+                            <i class="fas fa-clock text-[#535C91]"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-700">Appointment Time</p>
+                            <p class="text-sm text-gray-600">
+                                @if($time == 'morning')
+                                    Morning (9AM - 12PM)
+                                @elseif($time == 'afternoon')
+                                    Afternoon (12PM - 3PM)
+                                @else
+                                    Evening (3PM - 6PM)
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <div class="bg-[#EEF2FF] p-2 rounded-full">
+                            <i class="fas fa-tools text-[#535C91]"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-700">Service</p>
+                            <p class="text-sm text-gray-600">
+                                {{ $services->firstWhere('id', $selectedService)?->name }} - 
+                                {{ $serviceOns->firstWhere('id', $selectedServiceOn)?->name }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t pt-6 flex flex-col sm:flex-row justify-between gap-3">
+                    <button wire:click="closeSuccessModal" class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition text-center">
+                        <i class="fas fa-home mr-2"></i> Continue Browsing
+                    </button>
+                    <a href="{{ route('my-booking') }}" class="px-6 py-2 bg-[#535C91] text-white rounded-lg font-medium hover:bg-[#414A78] transition text-center">
+                        <i class="fas fa-clipboard-list mr-2"></i> Track My Booking
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    <!-- Custom CSS for Automatic Scrolling and Success Animation -->
     <style>
         @keyframes scroll {
             0% {
@@ -434,6 +565,106 @@
         }
         .animate-scroll:hover {
             animation-play-state: paused;
+        }
+        
+        /* Success Animation */
+        .success-animation {
+            margin: 0 auto;
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+        
+        .checkmark-circle {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .checkmark-circle::before {
+            content: '';
+            position: absolute;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background-color: #535C91;
+            top: 7.5px;
+            left: 7.5px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .checkmark-stem {
+            position: absolute;
+            width: 5px;
+            height: 30px;
+            background-color: white;
+            left: 38px;
+            top: 21px;
+            border-radius: 5px;
+            transform: rotate(45deg);
+            animation: animateSuccessLong 0.75s ease both;
+        }
+        
+        .checkmark-kick {
+            position: absolute;
+            width: 17px;
+            height: 5px;
+            background-color: white;
+            left: 24px;
+            top: 43px;
+            border-radius: 5px;
+            transform: rotate(45deg);
+            animation: animateSuccessShort 0.75s ease both;
+        }
+        
+        @keyframes animateSuccessLong {
+            0% {
+                width: 0;
+                right: 46px;
+                top: 54px;
+            }
+            65% {
+                width: 0;
+                right: 46px;
+                top: 54px;
+            }
+            84% {
+                width: 55px;
+                right: 0px;
+                top: 35px;
+            }
+            100% {
+                width: 30px;
+                right: 0px;
+                top: 21px;
+            }
+        }
+        
+        @keyframes animateSuccessShort {
+            0% {
+                width: 0;
+                right: 46px;
+                top: 37px;
+            }
+            65% {
+                width: 0;
+                right: 46px;
+                top: 37px;
+            }
+            84% {
+                width: 17px;
+                right: 0px;
+                top: 37px;
+            }
+            100% {
+                width: 17px;
+                right: 0px;
+                top: 43px;
+            }
         }
     </style>
 </div>

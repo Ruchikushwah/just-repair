@@ -95,54 +95,101 @@ class Home extends Component
     
     public function bookService()
     {
-        $this->validate([
+        // Adding debug logging to troubleshoot
+        \Log::info('Booking service started', [
+            'data' => [
+                'name' => $this->name,
+                'phone' => $this->phone,
+                'selectedService' => $this->selectedService,
+                'selectedServiceOn' => $this->selectedServiceOn
+            ]
+        ]);
+        
+        // Add loading state
+        $this->dispatch('booking-started');
+        
+        // Validate all required fields
+        $validatedData = $this->validate([
             'name' => 'required|min:3',
             'phone' => 'required|digits:10',
             'selectedService' => 'required',
             'selectedServiceOn' => 'required',
             'address' => 'required|min:10',
-            'city' => 'required',
-            'state' => 'required',
+            // Make location fields required
+            'city' => 'required|string',
+            'state' => 'required|string',
             'pincode' => 'required|digits:6',
             'date' => 'required|date|after_or_equal:today',
-            'time' => 'required',
+            'time' => 'required|in:morning,afternoon,evening',
         ]);
         
-        // Generate unique job number
-        $jobNo = 'JR' . date('ymd') . strtoupper(Str::random(4));
-        
-        // Get requirement ID if any
-        $requirementId = null;
-        $requirement = Requirement::where('service_id', $this->selectedService)
-            ->where('service_on_id', $this->selectedServiceOn)
-            ->first();
+        try {
+            // Generate unique job number
+            $jobNo = 'JR' . date('ymd') . strtoupper(Str::random(4));
             
-        if ($requirement) {
-            $requirementId = $requirement->id;
+            // Get requirement ID if any
+            $requirementId = null;
+            $requirement = Requirement::where('service_id', $this->selectedService)
+                ->where('service_on_id', $this->selectedServiceOn)
+                ->first();
+            
+            if ($requirement) {
+                $requirementId = $requirement->id;
+            }
+            
+            // Convert time string to time format for database
+            $timeMap = [
+                'morning' => '09:00:00',
+                'afternoon' => '13:00:00',
+                'evening' => '17:00:00'
+            ];
+            
+            // Log before creating appointment
+            \Log::info('Creating appointment with data', [
+                'job_no' => $jobNo,
+                'service_id' => $this->selectedService,
+                'service_on_id' => $this->selectedServiceOn,
+                'time' => $timeMap[$this->time]
+            ]);
+            
+            // Create appointment
+            $appointment = Appointment::create([
+                'job_no' => $jobNo,
+                'user_id' => Auth::id(),
+                'service_id' => $this->selectedService,
+                'service_on_id' => $this->selectedServiceOn,
+                'requirement_id' => $requirementId,
+                'pref_date' => $this->date,
+                'time' => $timeMap[$this->time],
+                'name' => $this->name,
+                'contact_no' => $this->phone,
+                'address' => $this->address,
+                'landmark' => $this->landmark,
+                'city' => $this->city,
+                'state' => $this->state,
+                'pincode' => $this->pincode,
+                'status' => 'pending',
+            ]);
+            
+            // Log success
+            \Log::info('Appointment created successfully', ['appointment_id' => $appointment->id]);
+            
+            // Show success modal
+            $this->jobId = $jobNo;
+            $this->showSuccessModal = true;
+            
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error('Appointment creation failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            session()->flash('error', 'Failed to book appointment: ' . $e->getMessage());
+        } finally {
+            // End loading state
+            $this->dispatch('booking-completed');
         }
-        
-        // Create appointment
-        $appointment = Appointment::create([
-            'job_no' => $jobNo,
-            'user_id' => Auth::id(),
-            'service_id' => $this->selectedService,
-            'service_on_id' => $this->selectedServiceOn,
-            'requirement_id' => $requirementId,
-            'pref_date' => $this->date,
-            'time' => $this->time,
-            'name' => $this->name,
-            'contact_no' => $this->phone,
-            'address' => $this->address,
-            'landmark' => $this->landmark,
-            'city' => $this->city,
-            'state' => $this->state,
-            'pincode' => $this->pincode,
-            'status' => 'pending',
-        ]);
-        
-        // Show success modal
-        $this->jobId = $jobNo;
-        $this->showSuccessModal = true;
     }
     
     public function closeSuccessModal()
