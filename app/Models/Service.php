@@ -9,18 +9,25 @@ class Service extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'service_fee', 'image', 'status'];
+    protected $fillable = [
+        'name',
+        'description',
+        'image',
+        'status',
+    ];
 
-    public function serviceOn()
+    public function service_ons()
     {
         return $this->hasMany(ServiceOn::class);
     }
+
+    public function service_fees()
+    {
+        return $this->hasMany(ServiceFees::class);
+    }
+
     public function requirements()
     {
         return $this->hasMany(Requirement::class);
     }
-    public function serviceFees()
-{
-    return $this->hasMany(ServiceFees::class);
-}
 }

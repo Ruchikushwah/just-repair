@@ -69,7 +69,7 @@
 <body class="bg-gray-50">
     <x-header />
     
-    <main>
+    <main class="">
         {{ $slot }}
     </main>
     

@@ -9,15 +9,18 @@ class ServiceOn extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['service_id', 'name'];
-
-    public function requirement()
-    {
-        return $this->hasMany(Requirement::class);
-    }
+    protected $fillable = [
+        'service_id',
+        'name',
+    ];
 
     public function service()
     {
         return $this->belongsTo(Service::class);
+    }
+
+    public function requirements()
+    {
+        return $this->hasMany(Requirement::class);
     }
 }

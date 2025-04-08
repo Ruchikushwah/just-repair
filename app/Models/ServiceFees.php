@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ServiceFees extends Model
 {
-    protected $fillable = ['service_id', 'name', 'fees'];
+    use HasFactory;
+
+    protected $fillable = [
+        'service_id',
+        'name',
+        'fees',
+    ];
 
     public function service()
     {

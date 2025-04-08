@@ -16,9 +16,10 @@ class DatabaseSeeder extends Seeder
         
 
         $this->call([
-            ServiceSeeder::class,
-            ServiceOnSeeder::class,
-            RequirementSeeder::class,
+            // ServiceSeeder::class,
+            // ServiceOnSeeder::class,
+            ServiceFeesSeeder::class, // Add the new seeder
+            // RequirementSeeder::class,
         ]);
     }
 }
