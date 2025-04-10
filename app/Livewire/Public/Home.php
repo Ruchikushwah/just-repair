@@ -194,10 +194,6 @@ class Home extends Component
         }
     }
     
-    
-
-    
- 
     public function closeSuccessModal()
     {
         $this->showSuccessModal = false;

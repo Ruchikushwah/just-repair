@@ -123,6 +123,17 @@ class AppointmentForm extends Component
             // Show success modal
             $this->jobId = $jobNo;
             $this->showSuccessModal = true;
+        
+        // Reset all form fields
+        $this->reset([
+            'name', 'phone', 'address', 'date', 'time',
+            'issue', 'city', 'state', 'pincode', 'landmark',
+            'selectedService', 'selectedServiceOn', 'selectedServiceFee'
+        ]);
+
+        // Reset the service selections
+        $this->serviceOns = [];
+        $this->serviceFees = [];
             
         } catch (\Exception $e) {
             // Log the error for debugging
@@ -137,6 +148,11 @@ class AppointmentForm extends Component
             $this->dispatch('booking-completed');
         }
     }
+    public function closeSuccessModal()
+{
+    $this->showSuccessModal = false;
+    $this->jobId = null;
+}
     public function mount(){
 
         $this->services = Service::where('status', true)
