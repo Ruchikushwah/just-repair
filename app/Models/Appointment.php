@@ -25,7 +25,9 @@ class Appointment extends Model
         'city',
         'state',
         'pincode',
-        'status'
+        'status',
+        'job_number'
+
     ];
 
     public function user()
@@ -47,8 +49,8 @@ class Appointment extends Model
     {
         return $this->belongsTo(Requirement::class);
     }
-    // public function serviceFees()
-    // {
-    //     return $this->hasMany(ServiceFees::class, 'service_id', 'service_id');
-    // }
+    public function serviceFees()
+    {
+        return $this->hasMany(ServiceFees::class, 'service_id', 'service_id');
+    }
 }

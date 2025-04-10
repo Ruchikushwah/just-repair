@@ -1,19 +1,17 @@
 <?php
 
 namespace App\Livewire\Public;
-
-use Livewire\Component;
 use App\Models\Service;
 use App\Models\ServiceOn;
 use App\Models\ServiceFees;
-use App\Models\Banner;
-use App\Models\Appointment;
+use Livewire\Component;
 use App\Models\Requirement;
-use Carbon\Carbon;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Appointment;
 
-class Home extends Component
+use Illuminate\Support\Str;  // Add this import
+use Illuminate\Support\Facades\Auth;  // Also add this for Auth usage
+
+class AppointmentForm extends Component
 {
     public $name;
     public $phone;
@@ -38,65 +36,11 @@ class Home extends Component
     // For success modal
     public $showSuccessModal = false;
     public $jobId;
+    public $services;
 
-    public function mount()
-    {
-        // dd("testing");
-        $this->date = date('Y-m-d');
-        
-        // Pre-fill user data if logged in
-        if (Auth::check()) {
-            $user = Auth::user();
-            $this->name = $user->name;
-            $this->phone = $user->phone ?? '';
-        }
-    }
 
-    public function render()
-    {
-        $services = Service::where('status', true)
-            ->with(['service_ons', 'service_fees'])
-            ->get();
-            
-        $banners = Banner::where('status', true)->get();
-        
-        return view('livewire.public.home', [
-            'services' => $services,
-            'banners' => $banners,
-        ]);
-    }
-    
-    public function loadServiceOns()
-    {
-        if (!empty($this->selectedService)) {
-            $this->serviceOns = ServiceOn::where('service_id', $this->selectedService)->get();
-            $this->serviceFees = ServiceFees::where('service_id', $this->selectedService)->get();
-            $this->selectedServiceOn = null;
-        } else {
-            $this->serviceOns = [];
-            $this->serviceFees = [];
-        }
-    }
-    
-    public function loadServiceFees()
-    {
-        if (!empty($this->selectedServiceOn)) {
-            $this->serviceFees = ServiceFees::where('service_id', $this->selectedService)->get();
-        }
-    }
-    
-    public function selectService($serviceId)
-    {
-        $this->selectedService = $serviceId;
-        $this->loadServiceOns();
-        
-        // Scroll to booking form
-        $this->dispatch('scrollToBookingForm');
-    }
-    
     public function bookService()
     {
-        dd("te");
         // Adding debug logging to troubleshoot
         \Log::info('Booking service started', [
             'data' => [
@@ -193,25 +137,34 @@ class Home extends Component
             $this->dispatch('booking-completed');
         }
     }
-    
-    
+    public function mount(){
 
-    
- 
-    public function closeSuccessModal()
+        $this->services = Service::where('status', true)
+            ->with(['service_ons', 'service_fees'])
+            ->get();  
+            
+    }
+    public function loadServiceOns()
     {
-        $this->showSuccessModal = false;
-        
-        // Reset form
-        $this->reset([
-            'selectedService', 'selectedServiceOn', 'selectedServiceFee', 
-            'address', 'time', 'issue', 'city', 'state', 'pincode', 'landmark'
-        ]);
-        
-        if (!Auth::check()) {
-            $this->reset(['name', 'phone']);
+        if (!empty($this->selectedService)) {
+            $this->serviceOns = ServiceOn::where('service_id', $this->selectedService)->get();
+            $this->serviceFees = ServiceFees::where('service_id', $this->selectedService)->get();
+            $this->selectedServiceOn = null;
+        } else {
+            $this->serviceOns = [];
+            $this->serviceFees = [];
         }
-        
-        $this->date = date('Y-m-d');
+    }
+    
+    public function loadServiceFees()
+    {
+        if (!empty($this->selectedServiceOn)) {
+            $this->serviceFees = ServiceFees::where('service_id', $this->selectedService)->get();
+        }
+    }
+
+    public function render()
+    {
+        return view('livewire.public.appointment-form');
     }
 }

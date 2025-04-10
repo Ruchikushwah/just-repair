@@ -10,13 +10,26 @@ class BookingSuccess extends Component
     public $jobNumber;
     public $appointment;
 
-    public function mount($jobNumber)
+    public function mount()
     {
-        $this->jobNumber = $jobNumber;
-        $this->appointment = Appointment::with(['service', 'serviceOn'])
-            ->where('job_no', $jobNumber)
-            ->firstOrFail();
+        if (!session('booking_success')) {
+            return redirect()->route('homepage');
+        }
+
+        $this->appointment = Appointment::find(session('appointment_id'));
+        $this->jobNumber = session('job_number');
+
+        // Clear session after retrieving data
+        session()->forget(['booking_success', 'appointment_id', 'job_number']);
     }
+
+    // public function mount($jobNumber)
+    // {
+    //     $this->jobNumber = $jobNumber;
+    //     $this->appointment = Appointment::with(['service', 'serviceOn'])
+    //         ->where('job_no', $jobNumber)
+    //         ->firstOrFail();
+    // }
 
     public function render()
     {

@@ -60,7 +60,14 @@ class ViewService extends Component
         // Debugging: Log the selected requirements
         logger('Selected Requirements in ViewService:', $this->selectedRequirements);
     }
-
+    public function selectService($serviceId)
+    {
+        // Store service ID in session
+        session(['selected_service_id' => $serviceId]);
+        
+        // Redirect to booking form
+        return redirect()->route('book-appointment', ['serviceId' => $serviceId]);
+    }
 
     public function GetServiceOnId()
     {
