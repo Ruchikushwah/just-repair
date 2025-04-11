@@ -52,32 +52,6 @@ class Home extends Component
         }
     }
 
-    public function render()
-    {
-        $services = Service::where('status', true)
-            ->with(['service_ons', 'service_fees'])
-            ->get();
-            
-        $banners = Banner::where('status', true)->get();
-        
-        return view('livewire.public.home', [
-            'services' => $services,
-            'banners' => $banners,
-        ]);
-    }
-    
-    public function loadServiceOns()
-    {
-        if (!empty($this->selectedService)) {
-            $this->serviceOns = ServiceOn::where('service_id', $this->selectedService)->get();
-            $this->serviceFees = ServiceFees::where('service_id', $this->selectedService)->get();
-            $this->selectedServiceOn = null;
-        } else {
-            $this->serviceOns = [];
-            $this->serviceFees = [];
-        }
-    }
-    
     public function loadServiceFees()
     {
         if (!empty($this->selectedServiceOn)) {
@@ -87,113 +61,32 @@ class Home extends Component
     
     public function selectService($serviceId)
     {
-        $this->selectedService = $serviceId;
-        $this->loadServiceOns();
-        
-        // Scroll to booking form
-        $this->dispatch('scrollToBookingForm');
-    }
-    
-    public function bookService()
-    {
-        dd("te");
-        // Adding debug logging to troubleshoot
-        \Log::info('Booking service started', [
-            'data' => [
-                'name' => $this->name,
-                'phone' => $this->phone,
-                'selectedService' => $this->selectedService,
-                'selectedServiceOn' => $this->selectedServiceOn
-            ]
-        ]);
-        
-        // Add loading state
-        $this->dispatch('booking-started');
-        
-        // Validate all required fields
-        $validatedData = $this->validate([
-            'name' => 'required|min:3',
-            'phone' => 'required|digits:10',
-            'selectedService' => 'required',
-            'selectedServiceOn' => 'required',
-            'address' => 'required|min:10',
-            // Make location fields required
-            'city' => 'required|string',
-            'state' => 'required|string',
-            'pincode' => 'required|digits:6',
-            'date' => 'required|date|after_or_equal:today',
-            'time' => 'required|in:morning,afternoon,evening',
-        ]);
-        
         try {
-            // Generate unique job number
-            $jobNo = 'JR' . date('ymd') . strtoupper(Str::random(4));
+            // Find the service first
+            $service = Service::findOrFail($serviceId);
             
-            // Get requirement ID if any
-            $requirementId = null;
-            $requirement = Requirement::where('service_id', $this->selectedService)
-                ->where('service_on_id', $this->selectedServiceOn)
-                ->first();
+            $this->selectedService = $service->id;
+            $this->loadServiceOns();
             
-            if ($requirement) {
-                $requirementId = $requirement->id;
-            }
-            
-            // Convert time string to time format for database
-            $timeMap = [
-                'morning' => '09:00:00',
-                'afternoon' => '13:00:00',
-                'evening' => '17:00:00'
-            ];
-            
-            // Log before creating appointment
-            \Log::info('Creating appointment with data', [
-                'job_no' => $jobNo,
-                'service_id' => $this->selectedService,
-                'service_on_id' => $this->selectedServiceOn,
-                'time' => $timeMap[$this->time]
-            ]);
-            
-            // Create appointment
-            $appointment = Appointment::create([
-                'job_no' => $jobNo,
-                'user_id' => Auth::id(),
-                'service_id' => $this->selectedService,
-                'service_on_id' => $this->selectedServiceOn,
-                'requirement_id' => $requirementId,
-                'pref_date' => $this->date,
-                'time' => $timeMap[$this->time],
-                'name' => $this->name,
-                'contact_no' => $this->phone,
-                'address' => $this->address,
-                'landmark' => $this->landmark,
-                'city' => $this->city,
-                'state' => $this->state,
-                'pincode' => $this->pincode,
-                'status' => 'pending',
-            ]);
-            
-            // Log success
-            \Log::info('Appointment created successfully', ['appointment_id' => $appointment->id]);
-            
-            // Show success modal
-            $this->jobId = $jobNo;
-            $this->showSuccessModal = true;
-            
+            // Scroll to booking form
+            $this->dispatch('scrollToBookingForm');
         } catch (\Exception $e) {
-            // Log the error for debugging
-            \Log::error('Appointment creation failed', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            
-            session()->flash('error', 'Failed to book appointment: ' . $e->getMessage());
-        } finally {
-            // End loading state
-            $this->dispatch('booking-completed');
+            session()->flash('error', 'Service not found');
         }
     }
-    
+
+    public function loadServiceOns()
+    {
+        if (!empty($this->selectedService)) {
+            $this->serviceOns = ServiceOn::where('service_id', $this->selectedService)
+                ->with('service') // Eager load the service relationship
+                ->get();
+            
+            // Reset previous selections
+            $this->selectedServiceOn = null;
+            $this->serviceFees = [];
+        }
+    }
     public function closeSuccessModal()
     {
         $this->showSuccessModal = false;
@@ -210,4 +103,19 @@ class Home extends Component
         
         $this->date = date('Y-m-d');
     }
+
+    public function render()
+    {
+        $services = Service::where('status', true)
+            ->with(['service_ons', 'service_fees'])
+            ->get();
+            
+        $banners = Banner::where('status', true)->get();
+        
+        return view('livewire.public.home', [
+            'services' => $services,
+            'banners' => $banners,
+        ]);
+    }
+    
 }

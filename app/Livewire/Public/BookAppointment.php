@@ -52,6 +52,8 @@ class BookAppointment extends Component
             $this->selectedRequirements = Requirement::whereIn('id', $this->requirementId)->get();
         }
     }
+
+    
     public function toggleRequirement($id)
     {
         if (in_array($id, $this->requirementId)) {
