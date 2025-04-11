@@ -66,21 +66,6 @@
 
         @endif
 
-        @if(!empty($serviceFees))
-        <div>
-            <label for="service_fee" class="block text-gray-700 text-sm font-medium mb-2">Select
-                Service Type</label>
-            <select id="service_fee" wire:model.blur="selectedServiceFee"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent">
-                <option value="">Select service type</option>
-                @foreach($serviceFees as $serviceFee)
-                <option value="{{ $serviceFee->id }}">{{ $serviceFee->name }} -
-                    ₹{{ $serviceFee->fees }}</option>
-                @endforeach
-            </select>
-        </div>
-        @endif
-
         <div>
             <label for="address" class="block text-gray-700 text-sm font-medium mb-2">Address
                 *</label>
@@ -156,10 +141,17 @@
                 placeholder="Briefly describe the issue you're facing"></textarea>
         </div>
 
-        <button type="submit"
-            class="w-full bg-[#535C91] text-white py-3 rounded-lg font-semibold hover:bg-[#414A78] transition duration-300 flex items-center justify-center">
+        <button type="submit" 
+        wire:loading.attr="disabled"
+        wire:target="bookService"
+        class="w-full bg-[#535C91] text-white py-3 rounded-lg font-semibold hover:bg-[#414A78] transition duration-300 flex items-center justify-center">
+        <span wire:loading.remove wire:target="bookService">
             <i class="fas fa-tools mr-2"></i> Book Repair Service
-        </button>
+        </span>
+        <span wire:loading wire:target="bookService">
+            <i class="fas fa-spinner fa-spin mr-2"></i> Processing...
+        </span>
+    </button>
         <p class="text-xs text-gray-500 text-center">By booking, you agree to our terms and
             services</p>
     </form>

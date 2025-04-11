@@ -30,7 +30,8 @@ Route::get('/', Home::class)->name('homepage');
 Route::get('/service/{id}', ViewService::class);
 Route::get('/my-booking', MyBookig::class)->name('my-booking');
 Route::get('/booking-success/{jobNumber}', BookingSuccess::class)->name('booking.success');
-Route::get('/book-appointment/{serviceId}', BookAppointment::class)->name('book-appointment');
+// Route::get('/book-appointment/{serviceId}', BookAppointment::class)->name('book-appointment');
+Route::get('/book-appointment/{serviceId}', BookAppointment::class)->name('book.appointment');
 Route::get('/track-appointment', TrackAppointment::class)->name('track-appointment');
 
 Route::middleware(['auth'])->group(function () {
