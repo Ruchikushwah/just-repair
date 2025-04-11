@@ -24,7 +24,7 @@
             </div>
             @elseif ($existingImage) <!-- Add this condition for the update case -->
             <div class="mt-2">
-                <img src="{{ asset('/image/'.$existingImage) }}" class="h-16 w-16 rounded-full shadow-md" alt="Existing Service Icon">
+                <img src="{{ asset('storage/'.$existingImage) }}" class="h-16 w-16 rounded-full shadow-md" alt="Existing Service Icon">
             </div>
             @endif
         </div>
