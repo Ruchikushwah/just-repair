@@ -17,7 +17,7 @@ class ServiceView extends Component
 
     public function mount($serviceId)
     {
-        $this->service = Service::with(['serviceOn', 'requirements', 'serviceFees'])->findOrFail($serviceId);
+        $this->service = Service::with(['service_ons', 'requirements', 'service_fees'])->findOrFail($serviceId);
     }
 
     public function addServiceFee()
