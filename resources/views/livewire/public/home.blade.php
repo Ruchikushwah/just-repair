@@ -285,7 +285,7 @@ body {
                             <span class="text-xl">Book Repair Service Online</span>
                         </div>
                         <div class="p-6 relative">
-                           <livewire:public.appointment-form/>
+                            <livewire:public.appointment-form />
                         </div>
                     </div>
                 </div>
@@ -340,10 +340,10 @@ body {
                             </ul>
                         </div>
 
-                        <button wire:click="selectService({{ $service->id }})"
+                        <a href="{{ route('service.view', ['id' => $service->id]) }}"
                             class="mt-auto bg-gray-100 text-gray-700 hover:bg-indigo-600 hover:text-white transition-colors duration-300 py-2.5 px-4 rounded-lg text-sm font-medium flex items-center justify-center mt-4">
                             <i class="fas fa-tools mr-2"></i> Book Now
-                        </button>
+                        </a>
                     </div>
                 </div>
                 @endif

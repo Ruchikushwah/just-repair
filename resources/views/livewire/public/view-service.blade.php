@@ -1,6 +1,7 @@
 <div>
-    <div class="container flex-col mx-auto px-6 py-8 flex flex-wrap lg:flex-nowrap gap-10 mb-4 mt-10">
-        <div class="relative w-full h-58 bg-cover bg-center rounded-lg overflow-hidden" style="background-image: url('/path/to/your/image.png');">
+    <div class="container flex-col mx-auto px-6 py-8 flex flex-wrap lg:flex-nowrap gap-10 mb-4 mt-20">
+        <div class="relative w-full h-58 bg-cover bg-center rounded-lg overflow-hidden"
+            style="background-image: url('/path/to/your/image.png');">
             <div class="absolute inset-0 bg-[#535C91] opacity-50"></div>
             <div class="relative z-10 w-full lg:w-1/2 text-white p-8">
                 <h2 class="text-4xl font-semibold mb-4">{{ $service->name }}</h2>
@@ -32,9 +33,10 @@
             </select>
             <div class="">
                 <h3 class="text-2xl font-semibold mb-4">Select Service Type</h3>
-                <select wire:model.change="serviceOnId" class="p-3 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#535C91]">
+                <select wire:model.change="serviceOnId"
+                    class="p-3 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#535C91]">
                     <option value="">Choose a service type</option>
-                    @foreach($service->serviceOn as $serviceOn)
+                    @foreach($service->service_ons as $serviceOn)
                     <option value="{{ $serviceOn->id }}">{{ $serviceOn->name }}</option>
                     @endforeach
                 </select>
@@ -56,7 +58,7 @@
         @endif
     </div>
     <div class="w-full rounded-lg overflow-hidden px-4 py-2 text-black opacity-90 ">
-        <div id="pricing" class="tab-content hidden">
+        <div id="pricing" class="tab-content hidden lg:px-[10%]">
             <h3 class="text-2xl font-semibold mb-4">Selected Service Pricing</h3>
             <ul class="text-lg space-y-3">
                 @forelse($service->serviceFees as $fee)
@@ -70,12 +72,13 @@
             </ul>
         </div>
         <!-- FAQ Tab -->
-        <div id="faq" class="tab-content hidden">
+        <div id="faq" class="tab-content hidden lg:px-[10%]">
             <h3 class="text-2xl font-semibold mb-4">Frequently Asked Questions</h3>
             <div class="space-y-4">
                 <!-- FAQ Item 1 -->
                 <div class="border rounded-lg">
-                    <button class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
+                    <button
+                        class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
                         What is included in the service?
                         <span class="plus-icon">+</span>
                     </button>
@@ -86,7 +89,8 @@
 
                 <!-- FAQ Item 2 -->
                 <div class="border rounded-lg">
-                    <button class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
+                    <button
+                        class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
                         Is there any hidden cost?
                         <span class="plus-icon">+</span>
                     </button>
@@ -97,7 +101,8 @@
 
                 <!-- FAQ Item 3 -->
                 <div class="border rounded-lg">
-                    <button class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
+                    <button
+                        class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
                         How long does the service take?
                         <span class="plus-icon">+</span>
                     </button>
@@ -108,7 +113,8 @@
 
                 <!-- FAQ Item 4 -->
                 <div class="border rounded-lg">
-                    <button class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
+                    <button
+                        class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
                         Do you offer a warranty?
                         <span class="plus-icon">+</span>
                     </button>
@@ -119,7 +125,8 @@
 
                 <!-- FAQ Item 5 -->
                 <div class="border rounded-lg">
-                    <button class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
+                    <button
+                        class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
                         Can I reschedule my appointment?
                         <span class="plus-icon">+</span>
                     </button>
@@ -130,7 +137,8 @@
 
                 <!-- FAQ Item 6 -->
                 <div class="border rounded-lg">
-                    <button class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
+                    <button
+                        class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
                         What payment methods do you accept?
                         <span class="plus-icon">+</span>
                     </button>
@@ -141,7 +149,8 @@
 
                 <!-- FAQ Item 7 -->
                 <div class="border rounded-lg">
-                    <button class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
+                    <button
+                        class="faq-toggle flex justify-between items-center w-full p-4 bg-gray-100 text-lg font-semibold">
                         Is there customer support available?
                         <span class="plus-icon">+</span>
                     </button>
@@ -153,33 +162,33 @@
         </div>
 
         <script>
-            document.querySelectorAll(".faq-toggle").forEach(button => {
-                button.addEventListener("click", function() {
-                    const content = this.nextElementSibling;
-                    content.classList.toggle("hidden");
+        document.querySelectorAll(".faq-toggle").forEach(button => {
+            button.addEventListener("click", function() {
+                const content = this.nextElementSibling;
+                content.classList.toggle("hidden");
 
-                    const icon = this.querySelector(".plus-icon");
-                    icon.textContent = content.classList.contains("hidden") ? "+" : "-";
-                });
+                const icon = this.querySelector(".plus-icon");
+                icon.textContent = content.classList.contains("hidden") ? "+" : "-";
             });
+        });
         </script>
     </div>
 
     <script>
-        function showTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById(tab).classList.remove('hidden');
-        }
+    function showTab(tab) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+        document.getElementById(tab).classList.remove('hidden');
+    }
     </script>
 
     <style>
-        .tab-link {
-            padding-bottom: 8px;
-            cursor: pointer;
-        }
+    .tab-link {
+        padding-bottom: 8px;
+        cursor: pointer;
+    }
 
-        .tab-link:hover {
-            border-bottom: 2px solid #535C91;
-        }
+    .tab-link:hover {
+        border-bottom: 2px solid #535C91;
+    }
     </style>
 </div>
