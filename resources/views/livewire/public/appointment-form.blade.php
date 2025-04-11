@@ -1,15 +1,5 @@
 <div>
     <form wire:submit="bookService" class="space-y-4">
-        <div wire:loading wire:target="booksubmit"
-            class="absolute inset-0 bg-white/80 flex items-center justify-center z-10 rounded-b-lg">
-            <div class="text-center">
-                <div
-                    class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-solid border-[#535C91] border-r-transparent">
-                </div>
-                <p class="mt-2 text-sm text-gray-600">Processing your booking...</p>
-            </div>
-        </div>
-
         @if (session()->has('error'))
         <div class="bg-red-100 text-red-700 p-3 rounded-lg text-sm">
             {{ session('error') }}

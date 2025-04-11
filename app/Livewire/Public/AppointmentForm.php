@@ -134,6 +134,7 @@ class AppointmentForm extends Component
         // Reset the service selections
         $this->serviceOns = [];
         $this->serviceFees = [];
+        return redirect()->route('booking.success', ['jobNumber' => $jobNo]);
             
         } catch (\Exception $e) {
             // Log the error for debugging
