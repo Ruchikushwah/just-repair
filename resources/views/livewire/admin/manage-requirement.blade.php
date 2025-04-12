@@ -132,7 +132,7 @@
                     <!-- Actions Column -->
                     <td class="px-6 py-4 gap-2 flex">
                         <a href="#" wire:click="editRequirement({{ $req->id }})" class="font-medium  bg-teal-600   text-white px-3 py-1 rounded-md">Edit</a>
-                        <a href="#" wire:click="deleteReq({{ $req->id }})" class="font-medium bg-red-600 text-white px-3 py-1 rounded-md ">Delete</a>
+                        <a href="#"  wire:confirm ="Are you sure you want to delete this?" wire:click="deleteReq({{ $req->id }})" class="font-medium bg-red-600 text-white px-3 py-1 rounded-md ">Delete</a>
                     </td>
                 </tr>
                 @endforeach
