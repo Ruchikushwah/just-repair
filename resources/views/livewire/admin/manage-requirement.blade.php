@@ -1,6 +1,6 @@
 <div class=" w-full flex gap-8 bg-white px-10 py-8 rounded-lg  mx-auto">
     <div class="w-4/12 h-[500px] px-6 py-8 border-teal-600 border rounded-lg bg-white">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Requirement Form</h2>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">{{ $editingRequirementId ? 'Edit Requirement' : 'Requirement Form' }}</h2>
 
         @if (session()->has('message'))
         <div class="mb-4 p-3 bg-green-100 text-green-700 border border-green-400 rounded-lg">
@@ -78,11 +78,19 @@
 
         </div>
         <div class="mt-6">
-            <button type="submit" wire:click="save" wire:target="save" wire:loading.attr="disabled"
-                class="bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700 transition w-full">
-                <span wire:loading.remove wire:target="save">Submit</span>
-                <span wire:loading wire:target="save">Submitting...</span>
-            </button>
+            @if($editingRequirementId)
+                <button type="button" wire:click="updateRequirement" wire:target="updateRequirement" wire:loading.attr="disabled"
+                    class="bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700 transition w-full">
+                    <span wire:loading.remove wire:target="updateRequirement">Update</span>
+                    <span wire:loading wire:target="updateRequirement">Updating...</span>
+                </button>
+            @else
+                <button type="submit" wire:click="save" wire:target="save" wire:loading.attr="disabled"
+                    class="bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700 transition w-full">
+                    <span wire:loading.remove wire:target="save">Submit</span>
+                    <span wire:loading wire:target="save">Submitting...</span>
+                </button>
+            @endif
         </div>
     </div>
     <div class="w-8/12 overflow-x-auto">
