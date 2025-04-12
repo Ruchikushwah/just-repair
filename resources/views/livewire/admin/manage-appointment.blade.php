@@ -72,7 +72,7 @@
                 </td>
                 <td class="px-6 py-4 flex gap-3">
                     <a href="#" wire:click="viewAppointment({{ $appointment->id }})" class="font-medium bg-orange-600   text-white px-4 py-1 rounded-md">View</a>
-                    <a href="#" wire:click="deleteAppointment({{$appointment }})" class="font-medium bg-red-600 text-white px-4 py-1 rounded-md ">delete</a>
+                    <a href="#"  wire:confirm ="Are you sure you want to delete this?" wire:click="deleteAppointment({{$appointment }})" class="font-medium bg-red-600 text-white px-4 py-1 rounded-md ">delete</a>
                 </td>
             </tr>
             @endforeach
