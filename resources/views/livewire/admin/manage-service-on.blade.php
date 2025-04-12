@@ -94,7 +94,7 @@
                     </td>
                     <td class="px-6 py-4 gap-2 flex">
                         <a href="#" wire:click="editServiceOn({{ $serviceOn->id }})" class="font-medium   hover:underline  bg-teal-600   text-white px-4 py-1 rounded-md">Edit</a>
-                        <a href="#" wire:click="deleteServiceOn({{$serviceOn }})" class="font-medium bg-red-600 text-white px-4 py-1 rounded-md hover:underline">delete</a>
+                        <a href="#" wire:confirm ="Are you sure you want to delete this?"wire:click="deleteServiceOn({{$serviceOn }})" class="font-medium bg-red-600 text-white px-4 py-1 rounded-md hover:underline">delete</a>
                     </td>
                 </tr>
                 @endforeach
