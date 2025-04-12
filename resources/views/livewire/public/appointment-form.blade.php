@@ -63,7 +63,20 @@
             @error('selectedServiceOn') <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
-
+        @endif
+        @if(!empty($serviceFees))
+        <div>
+            <label for="service_fee" class="block text-gray-700 text-sm font-medium mb-2">Select
+                Service Type</label>
+            <select id="service_fee" wire:model.blur="selectedServiceFee"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent">
+                <option value="">Select service type</option>
+                @foreach($serviceFees as $serviceFee)
+                <option value="{{ $serviceFee->id }}">{{ $serviceFee->name }} -
+                    ₹{{ $serviceFee->fees }}</option>
+                @endforeach
+            </select>
+        </div>
         @endif
 
         <div>

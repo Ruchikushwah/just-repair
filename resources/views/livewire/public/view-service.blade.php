@@ -27,7 +27,7 @@
             <h3 class="text-2xl font-semibold mb-4">When do you Need service?</h3>
             <select class="p-3 border rounded-lg w-full mb-6">
                 @foreach($weekDays as $day)
-                <option value="{{ $day['date'] }}">{{ $day['label'] }}</option>
+                    <option value="{{ $day['date'] }}">{{ $day['label'] }}</option>
                 @endforeach
 
             </select>
@@ -37,24 +37,27 @@
                     class="p-3 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#535C91]">
                     <option value="">Choose a service type</option>
                     @foreach($service->service_ons as $serviceOn)
-                    <option value="{{ $serviceOn->id }}">{{ $serviceOn->name }}</option>
+                        <option value="{{ $serviceOn->id }}">{{ $serviceOn->name }}</option>
                     @endforeach
                 </select>
             </div>
             <h3 class="text-2xl font-semibold mb-2">Requirement(s)</h3>
             @foreach($requirements as $req)
-            <label class="inline-flex items-center mb-4">
-                <input type="checkbox" wire:click="toggleRequirement({{ $req->id }})"
-                    {{ in_array($req->id, $requirementId) ? 'checked' : '' }}>
-                <span class="ml-2">{{ $req->requirement }}</span>
-            </label>
+                <label class="inline-flex items-center mb-4">
+                    <input type="checkbox" wire:click="toggleRequirement({{ $req->id }})" {{ in_array($req->id, $requirementId) ? 'checked' : '' }}>
+                    <span class="ml-2">{{ $req->requirement }}</span>
+                </label>
             @endforeach
         </div>
         @if(count($selectedRequirements) > 0)
-        <a href="{{ route('book-appointment', ['serviceId' => $service->id, 'serviceOnId' =>$serviceOn->id, 'requirements' => implode(',', $selectedRequirements)]) }}"
-            class="bg-[#5b3749] text-white px-6 py-3 rounded-full hover:bg-[#e60073] transition-all duration-300 shadow-md">
-            Book Appointment
-        </a>
+                <a href="{{ route('book-appointment', [
+                'serviceId' => $service->id,
+                'serviceOnId' => $serviceOnId,
+                'requirements' => implode(',', $selectedRequirements)
+            ]) }}"
+                    class="bg-[#5b3749] text-white px-6 py-3 rounded-full hover:bg-[#e60073] transition-all duration-300 shadow-md">
+                    Book Appointment
+                </a>
         @endif
     </div>
     <div class="w-full rounded-lg overflow-hidden px-4 py-2 text-black opacity-90 ">
@@ -62,12 +65,12 @@
             <h3 class="text-2xl font-semibold mb-4">Selected Service Pricing</h3>
             <ul class="text-lg space-y-3">
                 @forelse($service->serviceFees as $fee)
-                <li class="flex justify-between text-gray-800">
-                    <span>{{ $fee->name }}:</span>
-                    <span>₹{{ number_format($fee->fees, 2) }}</span>
-                </li>
+                    <li class="flex justify-between text-gray-800">
+                        <span>{{ $fee->name }}:</span>
+                        <span>₹{{ number_format($fee->fees, 2) }}</span>
+                    </li>
                 @empty
-                <li class="text-gray-500">No Service Fees added.</li>
+                    <li class="text-gray-500">No Service Fees added.</li>
                 @endforelse
             </ul>
         </div>
@@ -162,33 +165,33 @@
         </div>
 
         <script>
-        document.querySelectorAll(".faq-toggle").forEach(button => {
-            button.addEventListener("click", function() {
-                const content = this.nextElementSibling;
-                content.classList.toggle("hidden");
+            document.querySelectorAll(".faq-toggle").forEach(button => {
+                button.addEventListener("click", function () {
+                    const content = this.nextElementSibling;
+                    content.classList.toggle("hidden");
 
-                const icon = this.querySelector(".plus-icon");
-                icon.textContent = content.classList.contains("hidden") ? "+" : "-";
+                    const icon = this.querySelector(".plus-icon");
+                    icon.textContent = content.classList.contains("hidden") ? "+" : "-";
+                });
             });
-        });
         </script>
     </div>
 
     <script>
-    function showTab(tab) {
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-        document.getElementById(tab).classList.remove('hidden');
-    }
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tab).classList.remove('hidden');
+        }
     </script>
 
     <style>
-    .tab-link {
-        padding-bottom: 8px;
-        cursor: pointer;
-    }
+        .tab-link {
+            padding-bottom: 8px;
+            cursor: pointer;
+        }
 
-    .tab-link:hover {
-        border-bottom: 2px solid #535C91;
-    }
+        .tab-link:hover {
+            border-bottom: 2px solid #535C91;
+        }
     </style>
 </div>
