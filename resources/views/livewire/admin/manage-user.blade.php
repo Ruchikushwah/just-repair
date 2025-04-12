@@ -25,10 +25,10 @@
                 @foreach($users as $index => $user)
                 <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
 
-                    <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $index + 1 }}</td>
-                    <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $user->name }}</td>
-                    <td class="px-6 py-4">{{ $user->email }}</td>
-                    <td class="px-6 py-4">{{ $user->contact }}</td>
+                    <td class="px-6 py-4 text-black">{{ $index + 1 }}</td>
+                    <td class="px-6 py-4 text-black ">{{ $user->name }}</td>
+                    <td class="px-6 py-4 text-black">{{ $user->email }}</td>
+                    <td class="px-6 py-4 text-black">{{ $user->contact }}</td>
                 </tr>
                 @endforeach
             </tbody>
