@@ -23,12 +23,12 @@
             </thead>
             <tbody>
                 @foreach($users as $index => $user)
-                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                <tr class="border-b dark:border-gray-700 bg-gray-700">
 
-                    <td class="px-6 py-4 text-black">{{ $index + 1 }}</td>
-                    <td class="px-6 py-4 text-black ">{{ $user->name }}</td>
-                    <td class="px-6 py-4 text-black">{{ $user->email }}</td>
-                    <td class="px-6 py-4 text-black">{{ $user->contact }}</td>
+                    <td class="px-6 py-4 text-white">{{ $index + 1 }}</td>
+                    <td class="px-6 py-4 text-white ">{{ $user->name }}</td>
+                    <td class="px-6 py-4 text-white">{{ $user->email }}</td>
+                    <td class="px-6 py-4 text-white">{{ $user->contact }}</td>
                 </tr>
                 @endforeach
             </tbody>
