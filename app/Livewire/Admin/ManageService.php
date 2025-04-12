@@ -95,17 +95,17 @@ class ManageService extends Component
         return redirect()->route('admin.service-view', ['serviceId' => $id]);
     }
 
-    public function deleteService(Service $serviceId)
+    public function deleteService($serviceId)
     {
-        $service = Service::findOrFail($serviceId);
+        $service = Service::find($serviceId);
 
-        if ($service->serviceOns()->exists()) {
+        if ($service->service_ons()->exists()) {
             session()->flash('error', 'Cannot delete: Service has related serviceons that need to be deleted first.');
             return;
         }
         $service->delete();
         session()->flash('message', 'Service deleted successfully!');
-        $this->render();
+       
     }
     #[Title('Admin |Manage Service')]
     public function render()

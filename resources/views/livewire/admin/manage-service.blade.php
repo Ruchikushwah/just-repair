@@ -113,10 +113,11 @@
                         </a>
 
                         <a wire:click="editService({{ $service->id }})" class="font-medium bg-teal-600   text-white px-4 py-1 rounded-md">Edit</a>
-                        <button wire:confirm wire:click="deleteService({{ $service->id }})"
-                            class="font-medium bg-red-600  text-white px-2 py-1 rounded-md">
-                            Delete
-                        </button>
+                        <button wire:confirm="Are you sure you want to delete this service?" 
+        wire:click="deleteService({{ $service->id }})"
+        class="font-medium bg-red-600 text-white px-2 py-1 rounded-md">
+    Delete
+</button>
                     </td>
                 </tr>
                 @endforeach
