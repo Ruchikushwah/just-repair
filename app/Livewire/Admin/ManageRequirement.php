@@ -108,18 +108,16 @@ class ManageRequirement extends Component
     }
     #[Title('Admin |Manage Requirement')]
     public function render()
-    {
-        $requirements = Requirement::with(['service', 'serviceOn'])
-            ->latest()
-            ->when($this->search, function ($query) {
-                $query->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('description', 'like', '%' . $this->search . '%');
-            })
-            ->paginate(10);
+{
+    $requirements = Requirement::with(['service', 'serviceOn'])
+        ->latest()
+        ->when($this->search, function ($query) {
+            $query->where('requirement', 'like', '%' . $this->search . '%');
+        })
+        ->paginate(10);
 
-
-        return view('livewire.admin.manage-requirement', [
-            'requirements' => $requirements
-        ]);
-    }
+    return view('livewire.admin.manage-requirement', [
+        'requirements' => $requirements
+    ]);
+}
 }
