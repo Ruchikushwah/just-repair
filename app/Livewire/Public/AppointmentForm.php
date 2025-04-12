@@ -7,7 +7,7 @@ use App\Models\ServiceFees;
 use Livewire\Component;
 use App\Models\Requirement;
 use App\Models\Appointment;
-
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;  // Add this import
 use Illuminate\Support\Facades\Auth;  // Also add this for Auth usage
 
@@ -38,6 +38,36 @@ class AppointmentForm extends Component
     public $jobId;
     public $services;
 
+    public function fetchLocationDetails()
+    {
+        if (strlen($this->pincode) === 6) {
+            try {
+                $response = Http::get("https://api.postalpincode.in/pincode/{$this->pincode}");
+                
+                if ($response->successful()) {
+                    $data = $response->json();
+                    
+                    if ($data[0]['Status'] === 'Success') {
+                        $postOffice = $data[0]['PostOffice'][0];
+                        
+                        $this->city = $postOffice['District'];
+                        $this->state = $postOffice['State'];
+                    } else {
+                        $this->addError('pincode', 'Invalid PIN code');
+                    }
+                }
+            } catch (\Exception $e) {
+                $this->addError('pincode', 'Failed to fetch location details');
+            }
+        }
+    }
+
+    public function updatedPincode($value)
+    {
+        if (strlen($value) === 6) {
+            $this->fetchLocationDetails();
+        }
+    }
 
     public function bookService()
     {

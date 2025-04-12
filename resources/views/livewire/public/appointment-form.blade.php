@@ -10,7 +10,7 @@
             <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
                 <!-- ...existing modal content... -->
                 <button wire:click="closeSuccessModal" class="mt-4 px-4 py-2 bg-gray-200 rounded-lg">
-                    your booking has been successfully submitted 
+                    your booking has been successfully submitted
                 </button>
             </div>
         </div>
@@ -76,29 +76,37 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-                <label for="city" class="block text-gray-700 text-sm font-medium mb-2">City
-                    *</label>
-                <input type="text" id="city" wire:model.blur="city"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent"
-                    placeholder="City">
-                @error('city') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-            </div>
-            <div>
-                <label for="state" class="block text-gray-700 text-sm font-medium mb-2">State
-                    *</label>
-                <input type="text" id="state" wire:model.blur="state"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent"
-                    placeholder="State">
-                @error('state') <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+            <!-- Pincode Field (Move it first) -->
             <div>
                 <label for="pincode" class="block text-gray-700 text-sm font-medium mb-2">Pincode *</label>
-                <input type="text" id="pincode" wire:model.blur="pincode"
+                <input type="text" id="pincode" wire:model.blur="pincode" wire:change="fetchLocationDetails"
+                    maxlength="6"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent"
                     placeholder="6-digit pincode">
-                @error('pincode') <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @error('pincode')
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- City Field -->
+            <div>
+                <label for="city" class="block text-gray-700 text-sm font-medium mb-2">City *</label>
+                <input type="text" id="city" wire:model.blur="city"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent"
+                    placeholder="City" readonly>
+                @error('city')
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- State Field -->
+            <div>
+                <label for="state" class="block text-gray-700 text-sm font-medium mb-2">State *</label>
+                <input type="text" id="state" wire:model.blur="state"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#535C91] focus:border-transparent"
+                    placeholder="State" readonly>
+                @error('state')
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
             </div>
         </div>
@@ -141,17 +149,15 @@
                 placeholder="Briefly describe the issue you're facing"></textarea>
         </div>
 
-        <button type="submit" 
-        wire:loading.attr="disabled"
-        wire:target="bookService"
-        class="w-full bg-[#535C91] text-white py-3 rounded-lg font-semibold hover:bg-[#414A78] transition duration-300 flex items-center justify-center">
-        <span wire:loading.remove wire:target="bookService">
-            <i class="fas fa-tools mr-2"></i> Book Repair Service
-        </span>
-        <span wire:loading wire:target="bookService">
-            <i class="fas fa-spinner fa-spin mr-2"></i> Processing...
-        </span>
-    </button>
+        <button type="submit" wire:loading.attr="disabled" wire:target="bookService"
+            class="w-full bg-[#535C91] text-white py-3 rounded-lg font-semibold hover:bg-[#414A78] transition duration-300 flex items-center justify-center">
+            <span wire:loading.remove wire:target="bookService">
+                <i class="fas fa-tools mr-2"></i> Book Repair Service
+            </span>
+            <span wire:loading wire:target="bookService">
+                <i class="fas fa-spinner fa-spin mr-2"></i> Processing...
+            </span>
+        </button>
         <p class="text-xs text-gray-500 text-center">By booking, you agree to our terms and
             services</p>
     </form>
