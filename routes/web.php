@@ -29,10 +29,13 @@ use App\Livewire\Public\BookingSuccess;
 Route::get('/', Home::class)->name('homepage');
 Route::get('/service/{id}', ViewService::class)->name('service.view');
 Route::get('/my-booking', MyBookig::class)->name('my-booking');
-Route::get('/booking-success/{jobNumber}', BookingSuccess::class)->name('booking.success');
-Route::get('/book-appointment/{serviceId}/{serviceOnId}/{requirements}', BookAppointment::class)
-    ->name('book-appointment');
+Route::get('/booking/success/{jobNumber}', BookingSuccess::class)->name('booking.success');
+Route::get('/book-appointment/{serviceId}/{serviceOnId}/{requirements}', BookAppointment::class)->name('book-appointment');
 Route::get('/track-appointment', TrackAppointment::class)->name('track-appointment');
+// Route::get('/booking/success/{jobNumber}', function($jobNumber) {
+//     return view('booking.success', compact('jobNumber'));
+// })->name('booking.success');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::middleware(AdminMiddleware::class)->group(function () {
