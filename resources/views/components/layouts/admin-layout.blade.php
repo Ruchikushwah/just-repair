@@ -11,15 +11,39 @@
     @livewireStyles
 </head>
 
-<body>
-    <x-adminheader />
-    <div class="flex">
-        <x-adminsidebar />
-        {{ $slot }}
+<body class="bg-gray-100">
+    <div class="flex flex-col min-h-screen">
+      
+        <x-adminheader />
+
+      
+        <div class="flex flex-1 relative">
+          
+            <x-adminsidebar />
+
+          
+            <main class="flex-1 p-4 sm:p-6 lg:p-8 bg-gray-100">
+                {{ $slot }}
+            </main>
+        </div>
     </div>
 
    
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden lg:hidden z-10"></div>
     @livewireScripts
+    <script>
+        const menuButton = document.getElementById('menu-button');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        menuButton.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+    </script>
 </body>
 
 </html>
