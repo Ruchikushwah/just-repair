@@ -61,8 +61,8 @@
                 <div class="grid grid-cols-1 gap-4">
                     <!-- Service Id (Readonly) -->
                     <div>
-                        <label for="serviceId" class="block text-sm font-medium text-gray-700">Service Id</label>
-                        <input type="text" wire:model="service_id" value="{{ $service->id }}" readonly class="mt-1 block w-full p-2 border border-gray-200 rounded-md text-sm bg-gray-100" />
+                        <label for="serviceId" class="block text-sm font-medium text-gray-700">Service Name</label>
+                        <input type="text" wire:model="service_id" value="{{ $service->name }}" readonly class="mt-1 block w-full p-2 border border-gray-200 rounded-md text-sm bg-gray-100" />
                     </div>
 
                     <!-- Service Fee Name -->
