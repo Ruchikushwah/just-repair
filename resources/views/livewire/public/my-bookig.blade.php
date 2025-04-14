@@ -59,7 +59,7 @@
                         <div class="border-t pt-4">
                             <div class="flex items-center mb-3">
                                 <i class="fas fa-phone text-indigo-600 w-5"></i>
-                                <span class="text-gray-600 ml-2">{{ $appointment->user->contact_no ?? 'N/A' }}</span>
+                                <span class="text-gray-600 ml-2">{{ $appointment->contact_no ?? 'N/A' }}</span>
                             </div>
                             <div class="flex items-start">
                                 <i class="fas fa-map-marker-alt text-indigo-600 w-5 mt-1"></i>
