@@ -19,6 +19,7 @@ use App\Livewire\Auth\Register;
 use App\Livewire\Public\BookAppointment;
 use App\Livewire\Public\Home;
 use App\Livewire\Public\MyBookig;
+use App\Livewire\Public\Service;
 use App\Livewire\Public\TrackAppointment;
 use App\Livewire\Public\ViewService;
 use App\Models\User;
@@ -32,6 +33,7 @@ Route::get('/my-booking', MyBookig::class)->name('my-booking');
 Route::get('/booking/success/{jobNumber}', BookingSuccess::class)->name('booking.success');
 Route::get('/book-appointment/{serviceId}/{serviceOnId}/{requirements}', BookAppointment::class)->name('book-appointment');
 Route::get('/track-appointment', TrackAppointment::class)->name('track-appointment');
+Route::get('/services-{type?}', Service::class)->name('public-services');
 // Route::get('/booking/success/{jobNumber}', function($jobNumber) {
 //     return view('booking.success', compact('jobNumber'));
 // })->name('booking.success');
