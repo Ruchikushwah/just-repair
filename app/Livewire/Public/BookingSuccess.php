@@ -12,15 +12,11 @@ class BookingSuccess extends Component
 
     public function mount($jobNumber)
     {
-        try {
-            $this->jobNumber = $jobNumber;
-            // Change job_no to job_number to match database column
-            $this->appointment = Appointment::where('job_no', $jobNumber)
-                ->with(['service', 'serviceOn'])
-                ->firstOrFail();
-        } catch (\Exception $e) {
-            return redirect()->route('home')->with('error', 'Booking not found');
-        }
+        $this->jobNumber = $jobNumber;
+        $this->appointment = Appointment::where('job_no', $jobNumber)
+            ->with(['service', 'serviceOn'])
+            ->firstOrFail();
+    }
     //     if (!session('booking_success')) {
     //         return redirect()->route('homepage');
     //     }
@@ -30,7 +26,7 @@ class BookingSuccess extends Component
 
     //     // Clear session after retrieving data
     //     session()->forget(['booking_success', 'appointment_id', 'job_number']);
-    }
+    
 
 
 
