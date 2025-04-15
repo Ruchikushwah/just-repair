@@ -460,7 +460,7 @@ body {
     <!-- Banner Section -->
     <section class="container mx-auto px-8 pb-16">
         <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold text-gray-900 mb-4">Special Offers</h2>
+            <h2 class="text-3xl font-bold text-gray-900 mt-5">Special Offers</h2>
             <p class="text-gray-600 max-w-2xl mx-auto">Check out our latest deals and seasonal discounts</p>
         </div>
         <div class="mt-6 overflow-hidden relative">

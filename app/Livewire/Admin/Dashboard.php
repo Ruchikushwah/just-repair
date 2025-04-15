@@ -18,18 +18,25 @@ class Dashboard extends Component
     public $totalAppointments;
     public $totalServices;
     public $totalUsers;
-
+    public $pendingAppointments;
+    
     public $labels = [];
     public $data = [];
     public $appointmentLabels = [];
     public $appointmentData = [];
+
+
+    
 
     public function mount()
     {
         $this->totalAppointments = Appointment::count();
         $this->totalServices = Service::count();
         $this->totalUsers = User::count();
-
+        $this->pendingAppointments = Appointment::where('status', 'pending')
+        ->orderBy('created_at', 'desc')
+        ->take(5)
+        ->get();
         $this->fetchLoginData();
         $this->fetchAppointmentData();
     }
@@ -71,6 +78,7 @@ class Dashboard extends Component
         $this->labels = $dateRange->keys()->toArray();
         $this->data = $dateRange->values()->toArray();
     }
+   
 
     #[Title('Admin | Dashboard')]
     public function render()

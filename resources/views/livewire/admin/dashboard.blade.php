@@ -74,6 +74,45 @@
             </div>
         </div>
     </div>
+    <div class="max-w-7xl mx-auto mt-8">
+        <div class="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-slate-300">
+            <h3 class="text-lg font-medium text-gray-700 mb-4">Recent Pending Appointments</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Id</th>
+                            <th scope="col" class="px-6 py-3">Job No</th>
+                            <th scope="col" class="px-6 py-3">Name</th>
+                            <th scope="col" class="px-6 py-3">Date</th>
+                            <th scope="col" class="px-6 py-3">Contact</th>
+                            <th scope="col" class="px-6 py-3">Address</th>
+                            <th scope="col" class="px-6 py-3">Status</th>
+                            <th scope="col" class="px-6 py-3">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($pendingAppointments as $index => $appointment)
+                        <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-200">
+                            <td class="px-6 py-4">{{ $index + 1 }}</td>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{{ $appointment->job_no }}</th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{{ $appointment->name }}</th>
+                            <td class="px-6 py-4">{{ $appointment->pref_date }}</td>
+                            <td class="px-6 py-4">{{ $appointment->contact_no }}</td>
+                            <td class="px-6 py-4">{{ $appointment->address }}</td>
+                            <td class="px-6 py-4">
+                                <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-md">{{ $appointment->status }}</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <a href="{{ route('admin.view-appointment', ['appointmentId' => $appointment->id]) }}" class="flex-1 text-center bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">View</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <!-- Chart.js Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

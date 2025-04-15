@@ -9,7 +9,6 @@
         </div>
     </div>
 
-
     <hr class="my-4">
 
     <div class="flex justify-between">
@@ -39,30 +38,33 @@
             </tr>
         </thead>
         <tbody>
-
-
             <tr>
                 <td class="p-4 border">{{ $serviceFees->name }}</td>
                 <td class="p-4 border">1</td>
-                <td class="p-4 border">&#8377;{{ $serviceFees->fees }}</td>
-                <td class="p-4 border">&#8377;{{ $serviceFees->fees }}</td>
+                <td class="p-4 border">₹{{ $serviceFees->fees }}</td>
+                <td class="p-4 border">₹{{ $serviceFees->fees }}</td>
             </tr>
-
-
         </tbody>
     </table>
 
-
     <div class="text-right mt-8">
-        <p><strong>Subtotal:</strong> &#8377;{{ $serviceFees->fees }}</p>
-        <p><strong>Tax:</strong> &#8377;0.00</p>
-        <p><strong>Total:</strong> &#8377;{{ $serviceFees->fees }}</p>
+        <p><strong>Subtotal:</strong> ₹{{ $serviceFees->fees }}</p>
+        <p><strong>Tax:</strong> ₹0.00</p>
+        <p><strong>Total:</strong> ₹{{ $serviceFees->fees }}</p>
     </div>
 
-    <div class="mt-12 text-center">
+    <div class="mt-12 text-center print-hidden">
         <button onclick="printInvoice()" class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 mr-4">Print</button>
         <button onclick="downloadInvoice()" class="px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600">Download</button>
     </div>
+
+    <style>
+        @media print {
+            .print-hidden {
+                display: none;
+            }
+        }
+    </style>
 
     <script>
         function printInvoice() {
@@ -75,6 +77,7 @@
                     <style>
                         body { font-family: Arial, sans-serif; padding: 40px; }
                         .max-w-4xl { max-width: 1024px; margin: auto; }
+                        .print-hidden { display: none; }
                     </style>
                 </head>
                 <body>${content}</body>
