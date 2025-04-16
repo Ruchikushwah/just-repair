@@ -51,19 +51,24 @@
             </a>
 
             @if(Auth::check())
-                <div class="hidden md:flex items-center space-x-3 border-l pl-4 border-gray-200">
-                    <img src="{{ Auth::user()->profile_picture ? asset(Auth::user()->profile_picture) : asset('/default-avatar.jpg') }}"
-                        alt="User Icon" class="w-9 h-9 rounded-full border-2 border-[#EEF2FF]">
-                    <div class="flex flex-col">
-                        <span class="text-sm font-medium text-gray-800">{{ Auth::user()->name }}</span>
+            <div class="hidden md:flex items-center space-x-3 border-l pl-4 border-gray-200">
+                <img src="{{ Auth::user()->profile_picture ? asset(Auth::user()->profile_picture) : asset('/default-avatar.jpg') }}"
+                    alt="User Icon" class="w-9 h-9 rounded-full border-2 border-[#EEF2FF]">
+                <div class="flex flex-col">
+                    <span class="text-sm font-medium text-gray-800">{{ Auth::user()->name }}</span>
+                    
+                    @if(Auth::user()->isAdmin)
+                        <a href="{{ route('admin.dashboard') }}" class="text-xs text-blue-600 hover:underline">Admin</a>
+                    @else
                         <span class="text-xs text-gray-500">Customer</span>
-                    </div>
+                    @endif
                 </div>
-            @else
-                <a href="{{ route('auth.login') }}"
-                    class="hidden md:block text-[#535C91] hover:text-[#414A78] font-medium">Login</a>
-            @endif
-
+            </div>
+        @else
+            <a href="{{ route('auth.login') }}"
+               class="hidden md:block text-[#535C91] hover:text-[#414A78] font-medium">Login</a>
+        @endif
+        
             <button id="menu-btn"
                 class="bg-[#535C91] text-white p-2.5 rounded-lg hover:bg-[#414A78] transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#535C91]">
                 <i class="fas fa-bars text-lg"></i>
