@@ -27,6 +27,7 @@ class ManageUser extends Component
     public function getFilteredUsers()
     {
         return User::query()
+        ->where('isAdmin', false)
             ->when($this->filter !== 'all', function ($query) {
                 match ($this->filter) {
                     'today' => $query->whereDate('created_at', Carbon::today()),
