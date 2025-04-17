@@ -29,7 +29,7 @@
                     </a>
                     <a wire:navigate href="{{ route('public-services', ['type' => 'washing-machine']) }}"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-[#EEF2FF] hover:text-[#535C91]">
-                        <i class="fas fa-washer mr-2"></i> Washing Machine Repair
+                        <i class="fas fa-tshirt mr-2"></i> Washing Machine Repair
                     </a>
                     <a wire:navigate href="{{ route('public-services', ['type' => 'geyser-repair']) }}"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-[#EEF2FF] hover:text-[#535C91]">
