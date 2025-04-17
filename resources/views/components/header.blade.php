@@ -165,7 +165,7 @@
                         </li>
                         <li>
                             <a href="#" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
-                                <i class="fas fa-washer mr-3 w-5 text-center"></i> Washing Machine Repair
+                                <i class="fas fa-tshirt mr-3 w-5 text-center"></i> Washing Machine Repair
                             </a>
                         </li>
                         <li>
