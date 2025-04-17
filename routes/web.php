@@ -57,5 +57,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/register', Register::class)->name('auth.register');
-Route::get('/login', Login::class)->name('auth.login');
+Route::get('/login', Login::class)->name('login');
 Route::get('/logout', [Login::class, 'logout'])->name('auth.logout');

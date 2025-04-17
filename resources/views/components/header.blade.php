@@ -65,7 +65,7 @@
                 </div>
             </div>
         @else
-            <a href="{{ route('auth.login') }}"
+            <a href="{{ route('login') }}"
                class="hidden md:block text-[#535C91] hover:text-[#414A78] font-medium">Login</a>
         @endif
         
@@ -184,7 +184,7 @@
                     </div>
                 @else
                     <div class="pt-4 border-t border-gray-100 space-y-3">
-                        <a href="{{ route('auth.login') }}"
+                        <a href="{{ route('login') }}"
                             class="block w-full bg-[#535C91] text-white text-center py-3 rounded-lg hover:bg-[#414A78] transition-colors">
                             Sign In
                         </a>

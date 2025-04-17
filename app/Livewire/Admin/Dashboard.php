@@ -30,6 +30,7 @@ class Dashboard extends Component
 
     public function mount()
     {
+       
         $this->totalAppointments = Appointment::count();
         $this->totalServices = Service::count();
         $this->totalUsers = User::count();
@@ -39,6 +40,7 @@ class Dashboard extends Component
         ->get();
         $this->fetchLoginData();
         $this->fetchAppointmentData();
+       
     }
     public function fetchAppointmentData()
     {
@@ -83,6 +85,7 @@ class Dashboard extends Component
     #[Title('Admin | Dashboard')]
     public function render()
     {
+       
         return view('livewire.admin.dashboard');
     }
 }
