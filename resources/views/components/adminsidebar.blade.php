@@ -16,19 +16,19 @@
         <li>
             <a href="{{ route('admin.manage-service') }}"
                class="py-3 px-4 hover:bg-gray-700 flex items-center text-sm sm:text-base">
-                <i class="fas fa-cogs w-5 h-5 mr-3"></i> Services
+                <i class="fas fa-concierge-bell w-5 h-5 mr-3"></i> Services
             </a>
         </li>
         <li>
             <a href="{{ route('admin.manage-service-on') }}"
                class="py-3 px-4 hover:bg-gray-700 flex items-center text-sm sm:text-base">
-                <i class="fas fa-cogs w-5 h-5 mr-3"></i> ServiceOn
+                <i class="fas fa-toggle-on w-5 h-5 mr-3"></i> ServiceOn
             </a>
         </li>
         <li>
             <a href="{{ route('admin.manage-requirement') }}"
                class="py-3 px-4 hover:bg-gray-700 flex items-center text-sm sm:text-base">
-                <i class="fas fa-cogs w-5 h-5 mr-3"></i> Requirements
+                <i class="fas fa-list-check w-5 h-5 mr-3"></i> Requirements
             </a>
         </li>
         <li>
@@ -40,7 +40,7 @@
         <li>
             <a href="{{ route('admin.manage-banner') }}"
                class="py-3 px-4 hover:bg-gray-700 flex items-center text-sm sm:text-base">
-                <i class="fas fa-users w-5 h-5 mr-3"></i> Banners
+                <i class="fas fa-image w-5 h-5 mr-3"></i> Banners
             </a>
         </li>
         <li>
