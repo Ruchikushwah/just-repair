@@ -26,7 +26,7 @@ class ManageBanner extends Component
     {
 
         $this->validate([
-            'image' => 'required|mimes:jpg,jpeg,png,gif,webp,avif|max:1024',
+            'image' => 'required|mimes:jpg,jpeg,png,gif,webp,avif|max:2048',
         ]);
         $imagePath = $this->image->store('banners', 'public');
         Banner::create([
