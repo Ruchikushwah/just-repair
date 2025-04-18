@@ -458,32 +458,54 @@ body {
         </div>
     </section>
     <!-- Banner Section -->
-    <section class="container mx-auto px-8 pb-16">
-        <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold text-gray-900 mt-5">Special Offers</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto">Check out our latest deals and seasonal discounts</p>
+    <div class="max-w-6xl mx-auto px-4 py-12">
+        <!-- Header Section -->
+        <div class="max-w-2xl mx-auto text-center px-8 mt-12">
+            <h3 class="text-sm uppercase tracking-widest text-gray-500 font-semibold">O F F E R S</h3>
+            <h2 class="text-3xl font-bold text-gray-900 mt-2">Special Offers</h2>
+            <p class="text-gray-600 mt-4 text-lg">
+                Check out our latest deals and seasonal discounts tailored for you.
+            </p>
         </div>
-        <div class="mt-6 overflow-hidden relative">
-            <!-- Scrolling Wrapper -->
-            <div class="flex animate-scroll space-x-6">
-                @foreach($banners as $banner)
-                <div
-                    class="relative min-w-[60%] sm:min-w-[40%] md:min-w-[30%] h-60 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-                    <img src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}"
-                        class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
-                    <div class="absolute bottom-4 left-4 right-4 text-white">
-                        <h3 class="text-lg font-semibold">{{ $banner->title }}</h3>
-                        <p class="text-sm">{{ $banner->description }}</p>
-                        <a href="#"
-                            class="mt-2 inline-block bg-white text-[#535C91] px-4 py-1 rounded-full text-sm font-medium">Book
-                            Now</a>
+    
+        <!-- Scrolling Offers Section -->
+        <div class="mt-10 overflow-x-auto flex space-x-6 pb-4 snap-x snap-mandatory">
+            @forelse ($banners as $banner)
+                <div class="bg-white overflow-hidden w-72 flex-shrink-0 snap-center transform transition duration-300 hover:scale-105 rounded-lg shadow-md hover:shadow-xl">
+                    <img 
+                        src="{{ asset('storage/' . $banner->image) }}" 
+                        alt="{{ $banner->title }}" 
+                        class="w-full h-48 object-cover"
+                    >
+                    <div class="p-6 text-center">
+                        <h4 class="text-xl font-bold text-gray-900">{{ $banner->title }}</h4>
+                        <p class="text-gray-600 mt-2 text-sm line-clamp-2">{{ $banner->description }}</p>
+                        <a 
+                            href="#" 
+                            class="mt-4 inline-block bg-indigo-600 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-indigo-700 transition-colors"
+                        >
+                            Book Now
+                        </a>
                     </div>
                 </div>
-                @endforeach
-            </div>
+            @empty
+                <div class="w-full text-center py-4">
+                    <p class="text-gray-600">No offers available at the moment.</p>
+                </div>
+            @endforelse
         </div>
-    </section>
+    
+        <style>
+            .overflow-x-auto::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .overflow-x-auto {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        </style>
+    </div>
     <!-- Testimonials Section -->
     <section class="bg-[#F8FAFC] py-16">
         <div class="container mx-auto px-8 sm:px-[10%]">
