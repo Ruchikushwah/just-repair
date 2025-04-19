@@ -88,15 +88,20 @@
 
         <div class="p-6">
             @if(Auth::check())
-                <div class="flex items-center space-x-3 pb-4 mb-4 border-b border-gray-100">
-                    <img src="{{ Auth::user()->profile_picture ? asset(Auth::user()->profile_picture) : asset('/default-avatar.jpg') }}"
-                        alt="User Icon" class="w-12 h-12 rounded-full">
-                    <div>
-                        <p class="font-medium text-gray-800">{{ Auth::user()->name }}</p>
-                        <p class="text-sm text-gray-500">{{ Auth::user()->email }}</p>
-                    </div>
+            <div class="flex items-center space-x-3 pb-4 mb-4 border-b border-gray-100">
+                <img src="{{ Auth::user()->profile_picture ? asset(Auth::user()->profile_picture) : asset('/default-avatar.jpg') }}"
+                     alt="User Icon" class="w-12 h-12 rounded-full">
+                <div>
+                    <p class="font-medium text-gray-800">{{ Auth::user()->name }}</p>
+                    <p class="text-sm text-gray-500">{{ Auth::user()->email }}</p>
+                    @if(Auth::user()->isAdmin)
+                        <a href="{{ route('admin.dashboard') }}" class="text-xs text-blue-600 hover:underline">Admin</a>
+                    @else
+                        <span class="text-xs text-gray-500">Customer</span>
+                    @endif
                 </div>
-            @endif
+            </div>
+        @endif
 
             <!-- Quick Actions -->
             <div class="grid grid-cols-2 gap-3 mb-6">
