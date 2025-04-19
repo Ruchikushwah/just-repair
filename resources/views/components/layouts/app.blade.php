@@ -87,9 +87,10 @@
                 <span class="text-xs mt-1">Home</span>
             </a>
 
-            <a href="{{ route('my-booking') }}" class="flex flex-col items-center hover:text-[#535C91] footer-icon">
-                <i class="fa-regular fa-calendar-check text-lg"></i>
-                <span class="text-xs mt-1">Bookings</span>
+            <a href="{{ Auth::check() && auth()->user()->isAdmin ? route('admin.dashboard') : route('my-booking') }}"
+                class="flex flex-col items-center hover:text-[#535C91] footer-icon">
+                <i class="fa-regular {{ Auth::check() && auth()->user()->isAdmin ? 'fa-user-shield' : 'fa-calendar-check' }} text-lg"></i>
+                <span class="text-xs mt-1">{{ Auth::check() && auth()->user()->isAdmin ? 'Admin Panel' : 'Bookings' }}</span>
             </a>
 
             <a href="#services" class="flex flex-col items-center hover:text-[#535C91] footer-icon">
