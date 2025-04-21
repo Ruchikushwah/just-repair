@@ -154,27 +154,32 @@
                     <h3 class="uppercase text-xs font-semibold text-gray-500 tracking-wider mb-3">Services</h3>
                     <ul class="space-y-2">
                         <li>
-                            <a href="#" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
+                            <a wire:navigate href="{{ route('public-services', ['type' => 'ac-repair']) }}"
+                                class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
                                 <i class="fas fa-snowflake mr-3 w-5 text-center"></i> AC Repair & Service
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
+                            <a wire:navigate href="{{ route('public-services', ['type' => 'refrigerator-repair']) }}"
+                                class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
                                 <i class="fas fa-temperature-low mr-3 w-5 text-center"></i> Refrigerator Repair
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
+                            <a wire:navigate href="{{ route('public-services', ['type' => 'water-purifier']) }}"
+                                class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
                                 <i class="fas fa-tint mr-3 w-5 text-center"></i> Water Purifier Service
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
+                            <a wire:navigate href="{{ route('public-services', ['type' => 'washing-machine']) }}"
+                                class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
                                 <i class="fas fa-tshirt mr-3 w-5 text-center"></i> Washing Machine Repair
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
+                            <a wire:navigate href="{{ route('public-services', ['type' => 'geyser-repair']) }}"
+                                class="flex items-center text-gray-700 hover:text-[#535C91] py-2">
                                 <i class="fas fa-hot-tub mr-3 w-5 text-center"></i> Geyser Repair
                             </a>
                         </li>
