@@ -76,13 +76,6 @@
             <table class="w-full text-sm text-left text-gray-500">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
-                        <th scope="col" class="p-3 sm:p-4">
-                            <div class="flex items-center">
-                                <input id="checkbox-all-search" type="checkbox"
-                                       class="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-teal-500">
-                                <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                            </div>
-                        </th>
                         <th scope="col" class="px-3 py-2 sm:px-4 sm:py-3">Id</th>
                         <th scope="col" class="px-3 py-2 sm:px-4 sm:py-3">Service Name</th>
                         <th scope="col" class="px-3 py-2 sm:px-4 sm:py-3 hidden sm:table-cell">Description</th>
@@ -92,13 +85,6 @@
                 <tbody>
                     @foreach($services as $index => $service)
                     <tr class="bg-white border-b hover:bg-gray-50">
-                        <td class="w-4 p-3 sm:p-4">
-                            <div class="flex items-center">
-                                <input id="checkbox-table-search-{{ $service->id }}" type="checkbox"
-                                       class="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-teal-500">
-                                <label for="checkbox-table-search-{{ $service->id }}" class="sr-only">checkbox</label>
-                            </div>
-                        </td>
                         <th scope="row" class="px-3 py-3 sm:px-4 sm:py-4 font-medium text-gray-900 whitespace-nowrap">
                             {{ $index + 1 }}
                         </th>
