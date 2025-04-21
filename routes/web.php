@@ -3,6 +3,7 @@
 use App\Http\Middleware\AdminMiddleware;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Invoice;
+use App\Livewire\Admin\ManageInvice;
 use App\Livewire\Admin\ManageAppointment;
 use App\Livewire\Admin\ManageBanner;
 use App\Livewire\Admin\ManageRequirement;
@@ -53,6 +54,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/service-view/{serviceId}', ServiceView::class)->name('admin.service-view');
         Route::get('/setting', Setting::class)->name('admin.setting');
         Route::get('/invoice/{appointmentId}/{selectedServiceFees}', Invoice::class)->name('admin.invoice');
+        Route::get('/admin/manage-invoice', ManageInvice::class)->name('admin.manage-invoice');
+
     });
 });
 

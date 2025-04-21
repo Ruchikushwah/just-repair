@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_fees_id')->constrained()->onDelete('cascade');
+            $table->string('invoice_number')->unique();
+            $table->foreignId('servicefees_id')->constrained('service_fees')->onDelete('cascade');
             $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
             $table->integer('total_amount');
+            $table->timestamp('invoice_date')->nullable();
+            $table->timestamp('service_date')->nullable();
             $table->timestamps();
         });
     }
