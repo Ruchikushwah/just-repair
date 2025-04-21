@@ -1,3 +1,10 @@
+<div>
+<div class="flex flex-col sm:flex-row sm:justify-between gap-4">
+    <a href="{{ route('admin.manage-appointment') }}"
+        class="font-medium bg-teal-600 text-white px-4 py-2 rounded-md text-center hover:bg-teal-700 transition-all">
+        Back
+    </a>
+</div>
 <div class="max-w-4xl w-full mx-auto p-8 border border-gray-300 rounded-xl font-sans">
     <div class="flex justify-between items-center">
         <img src="/image.jpeg" alt="Company Logo" class="h-12">
@@ -54,23 +61,30 @@
     </div>
 
     <div class="mt-12 text-center print-hidden">
-        <button onclick="printInvoice()" class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 mr-4">Print</button>
-        <button onclick="downloadInvoice()" class="px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600">Download</button>
+        <button onclick="printInvoice()"
+            class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 mr-4">Print</button>
+        <button onclick="downloadInvoice()"
+            class="px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600">Download</button>
+
+        <a href="https://wa.me/7280080080" target="_blank" class=" bottom-20  z-50 bg-green-500 text-white p-3  rounded-full shadow-lg hover:bg-green-600 transition-all whatsapp-float float-end">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+    
     </div>
 
     <style>
-        @media print {
-            .print-hidden {
-                display: none;
-            }
+    @media print {
+        .print-hidden {
+            display: none;
         }
+    }
     </style>
 
     <script>
-        function printInvoice() {
-            const content = document.querySelector('.max-w-4xl').innerHTML;
-            const printWindow = window.open('', '', 'width=1200,height=800');
-            printWindow.document.write(`
+    function printInvoice() {
+        const content = document.querySelector('.max-w-4xl').innerHTML;
+        const printWindow = window.open('', '', 'width=1200,height=800');
+        printWindow.document.write(`
                 <html>
                 <head>
                     <title>Invoice</title>
@@ -83,14 +97,15 @@
                 <body>${content}</body>
                 </html>
             `);
-            printWindow.document.close();
-            printWindow.focus();
-            printWindow.print();
-            printWindow.close();
-        }
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+    }
 
-        function downloadInvoice() {
-            printInvoice();
-        }
+    function downloadInvoice() {
+        printInvoice();
+    }
     </script>
+</div>
 </div>
