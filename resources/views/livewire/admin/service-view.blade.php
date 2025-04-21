@@ -89,19 +89,23 @@
             @endif
         </div>
 
-        <!-- Service Fees List -->
-        <div class="w-full lg:w-1/2 p-4 sm:p-6 space-y-6 bg-white shadow-md rounded-lg">
-            <h3 class="text-lg sm:text-xl font-semibold text-teal-600">{{ $service->name }}</h3>
-            <ul class="space-y-3 text-sm sm:text-base">
-                @forelse($service->service_fees as $fee)
-                <li class="flex justify-between text-gray-800">
-                    <span>{{ $fee->name }}:</span>
-                    <span>₹{{ number_format($fee->fees, 2) }}</span>
-                </li>
-                @empty
-                <li class="text-gray-500">No Service Fees added.</li>
-                @endforelse
-            </ul>
-        </div>
+       
+<div class="w-full lg:w-1/2 p-4 sm:p-6 space-y-6 bg-white shadow-md rounded-lg">
+    <h3 class="text-lg sm:text-xl font-semibold text-teal-600">{{ $service->name }}</h3>
+    <ul class="space-y-3 text-sm sm:text-base">
+        @forelse($service->service_fees as $fee)
+        <li class="flex justify-between items-center text-gray-800">
+            <span>{{ $fee->name }}:</span>
+            <div class="flex items-center space-x-4">
+                <span>₹{{ number_format($fee->fees, 2) }}</span>
+                <button wire:click="editServiceFee({{ $fee->id }})" class="bg-teal-600 text-white px-2 py-1 sm:px-3 sm:py-1 rounded-md text-xs sm:text-sm hover:bg-teal-700">Edit</button>
+                <button wire:click="deleteServiceFee({{ $fee->id }})"wire:confirm="Are you sure you want to delete this?" class="bg-red-600 text-white px-2 py-1 sm:px-3 sm:py-1 rounded-md text-xs sm:text-sm hover:bg-red-700">Delete</button>
+            </div>
+        </li>
+        @empty
+        <li class="text-gray-500">No Service Fees added.</li>
+        @endforelse
+    </ul>
+</div>
     </div>
 </div>
