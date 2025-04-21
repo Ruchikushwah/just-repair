@@ -33,7 +33,7 @@ class Dashboard extends Component
        
         $this->totalAppointments = Appointment::count();
         $this->totalServices = Service::count();
-        $this->totalUsers = User::count();
+        $this->totalUsers = User::where('isAdmin', false)->count();
         $this->pendingAppointments = Appointment::where('status', 'pending')
         ->orderBy('created_at', 'desc')
         ->take(5)
