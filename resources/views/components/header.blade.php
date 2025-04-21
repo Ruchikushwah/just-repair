@@ -120,7 +120,7 @@
                     <i class="fas {{ Auth::check() && auth()->user()->isAdmin ? 'fa-user-shield' : 'fa-calendar-check' }} text-[#535C91] group-hover:text-white mb-2 text-xl"></i>
                     <span class="text-sm font-medium">{{ Auth::check() && auth()->user()->isAdmin ? 'Admin Panel' : 'My Bookings' }}</span>
                 </a>
-                <a href="{{route('public-services')}}"
+                <a href="#services"
                     class="flex flex-col items-center justify-center bg-[#EEF2FF] p-4 rounded-lg hover:bg-[#535C91] hover:text-white transition-colors group">
                     <i class="fas fa-history text-[#535C91] group-hover:text-white mb-2 text-xl"></i>
                     <span class="text-sm font-medium">Track Status</span>
