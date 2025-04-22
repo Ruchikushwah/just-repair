@@ -7,6 +7,7 @@
 
     <title>{{ $title ??  'Admin Panel'}}</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="shortcut icon" href="{{ asset('H.png') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     @livewireStyles
 </head>
