@@ -59,14 +59,28 @@
             <p><strong>Tax:</strong> ₹0.00</p>
             <p><strong>Total:</strong> ₹{{ $serviceFees->fees }}</p>
         </div>
-
         <div class="mt-12 text-center print-hidden">
-            <button type="button" wire:click="saveInvoice" wire:loading.attr="disabled"
-                wire:loading.class="opacity-50 cursor-not-allowed"
+            @if (session()->has('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+                x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)">
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+            @endif
+
+            @if (session()->has('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+            @endif
+
+            @if(!session()->has('success'))
+            <button wire:click="saveInvoice" wire:loading.attr="disabled"
                 class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 mr-4 disabled:opacity-50">
                 <span wire:loading.remove wire:target="saveInvoice">Save Invoice</span>
-                <span wire:loading wire:target="saveInvoice">Saving...</span>
+                <span wire:loading wire:target="saveInvoice">Processing...</span>
             </button>
+            @endif
+
             <button onclick="printInvoice()"
                 class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 mr-4">
                 Print
@@ -78,14 +92,7 @@
                 class=" bottom-20  z-50 bg-green-500 text-white p-3  rounded-full shadow-lg hover:bg-green-600 transition-all whatsapp-float float-end">
                 <i class="fab fa-whatsapp text-2xl"></i>
             </a>
-
-            @if (session()->has('error'))
-            <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                {{ session('error') }}
-            </div>
-            @endif
         </div>
-
         <style>
         @media print {
             .print-hidden {

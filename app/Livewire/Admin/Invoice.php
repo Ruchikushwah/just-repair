@@ -18,9 +18,6 @@ class Invoice extends Component
     public $serviceFeesId;
     public $serviceFees;
     public $totalAmount;
-    public $isProcessing = false;
-    public $showSuccessMessage = false;
-
     public $selectedServiceFee;
 
     // public function updatedSelected($serviceFeeId)
@@ -39,13 +36,8 @@ class Invoice extends Component
     {
         $this->isProcessing = true;
 
-        try {
-            // Generate unique invoice number
-            $invoiceNumber = 'INV-' . date('Ymd') . '-' . strtoupper(Str::random(4));
-
-            // Create new invoice
+        try {        
             $invoice = InvoiceModel::create([
-                'invoice_number' => $invoiceNumber,
                 'servicefees_id' => $this->serviceFees->id,
                 'appointment_id' => $this->appointment->id,
                 'total_amount' => $this->serviceFees->fees,
@@ -53,16 +45,10 @@ class Invoice extends Component
                 'service_date' => $this->appointment->pref_date
             ]);
 
-            // Update appointment status using update method
-            Appointment::where('id', $this->appointment->id)
-                ->update(['status' => 'invoiced']);
-
-            $this->isProcessing = false;
-            $this->showSuccessMessage = true;
-            session()->flash('success', 'Invoice created successfully!');
-
-        } catch (\Exception $e) {
-            $this->isProcessing = false;
+            session()->flash('success', 'Invoice saved successfully!');
+            $this->dispatch('invoice-saved');
+        }
+        catch (\Exception $e) {
             session()->flash('error', 'Failed to create invoice: ' . $e->getMessage());
         }
     }

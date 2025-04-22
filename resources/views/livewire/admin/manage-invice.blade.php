@@ -13,7 +13,7 @@
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Invoice No
+                            Id
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Service
@@ -33,7 +33,7 @@
                     @forelse($invoices as $invoice)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            {{ $invoice->invoice_number }}
+                            {{ $invoice->index+1 }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             {{ $invoice->serviceFee->name }}
