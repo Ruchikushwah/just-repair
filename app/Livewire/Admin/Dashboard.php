@@ -14,47 +14,63 @@ use Livewire\Component;
 #[Layout('components.layouts.admin-layout')]
 class Dashboard extends Component
 {
-
     public $totalAppointments;
     public $totalServices;
     public $totalUsers;
     public $pendingAppointments;
-    
+    public $doneAppointments; 
+
     public $labels = [];
     public $data = [];
     public $appointmentLabels = [];
     public $appointmentData = [];
 
-
-    
-
     public function mount()
     {
-       
-        $this->totalAppointments = Appointment::count();
-        $this->totalServices = Service::count();
-        $this->totalUsers = User::where('isAdmin', false)->count();
-        $this->pendingAppointments = Appointment::where('status', 'pending')
-        ->orderBy('created_at', 'desc')
-        ->take(5)
-        ->get();
-        $this->fetchLoginData();
-        $this->fetchAppointmentData();
-       
+        try {
+           
+            $this->totalAppointments = Appointment::count();
+            $this->totalServices = Service::count();
+            $this->totalUsers = User::where('isAdmin', false)->count();
+
+          
+            $this->pendingAppointments = Appointment::where('status', 'pending')
+                ->orderBy('created_at', 'desc')
+                ->take(5)
+                ->get() ?? collect([]);
+            $this->doneAppointments = Appointment::where('status', 'done') 
+                ->orderBy('created_at', 'desc')
+                ->take(5)
+                ->get() ?? collect([]);
+
+          
+            $this->fetchLoginData();
+            $this->fetchAppointmentData();
+        } catch (\Exception $e) {
+          
+            \Log::error('Dashboard Mount Error: ' . $e->getMessage());
+           
+            $this->pendingAppointments = collect([]);
+            $this->doneAppointments = collect([]);
+        }
     }
+
     public function fetchAppointmentData()
     {
         $monthlyData = collect(range(1, 12))->mapWithKeys(function ($month) {
             return [Carbon::create()->month($month)->format('F') => 0];
         });
+
         $appointments = Appointment::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
             ->groupBy('month')
             ->orderBy('month')
             ->get();
+
         $appointments->each(function ($item) use (&$monthlyData) {
             $monthName = Carbon::create()->month($item->month)->format('F');
             $monthlyData[$monthName] = $item->count;
         });
+
         $this->appointmentLabels = $monthlyData->keys()->toArray();
         $this->appointmentData = $monthlyData->values()->toArray();
     }
@@ -63,6 +79,7 @@ class Dashboard extends Component
     {
         $startDate = Carbon::now()->subDays(6)->startOfDay();
         $endDate = Carbon::now()->endOfDay();
+
         $logins = User::selectRaw('DATE(created_at) as date, COUNT(*) as count')
             ->whereBetween('created_at', [$startDate, $endDate])
             ->groupBy('date')
@@ -77,15 +94,14 @@ class Dashboard extends Component
         $logins->each(function ($item) use (&$dateRange) {
             $dateRange[$item->date] = $item->count;
         });
+
         $this->labels = $dateRange->keys()->toArray();
         $this->data = $dateRange->values()->toArray();
     }
-   
 
     #[Title('Admin | Dashboard')]
     public function render()
     {
-       
         return view('livewire.admin.dashboard');
     }
 }

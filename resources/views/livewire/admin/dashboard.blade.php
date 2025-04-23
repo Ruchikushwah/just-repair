@@ -1,4 +1,6 @@
 <div class="flex-grow px-4 sm:px-6 lg:px-10 py-6 bg-white">
+   
+
     <!-- Stat Cards -->
     <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <!-- Total Appointments Card -->
@@ -55,7 +57,51 @@
             </div>
         </div>
     </div>
-
+  
+     <!-- Notification Card -->
+     <div class="max-w-7xl mx-auto mt-5 sm:mt-6">
+        <div class="bg-white border border-slate-300 rounded-lg p-4 sm:p-5 shadow-sm">
+            <h3 class="text-base sm:text-lg lg:text-xl font-medium text-gray-700 mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C8.67 6.165 8 7.388 8 8.75v5.408c0 .538-.214 1.055-.595 1.436L6 17h5m4 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                Notifications
+              </h3>
+              
+            <div class="space-y-4">
+                
+                <div class="flex items-center justify-between border-b border-gray-200 pb-2">
+                    <div>
+                        <p class="text-sm sm:text-base text-red-500">
+                            <span class="font-medium">Pending Appointments:</span> 
+                            {{ $pendingAppointments->count() }} appointment(s) awaiting action.
+                        </p>
+                        
+                    </div>
+                    <div class="bg-yellow-100 p-2 sm:p-3 rounded-full">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-yellow-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm sm:text-base text-green-500">
+                            <span class="font-medium">Done Appointments:</span> 
+                            {{ $doneAppointments->count() }} appointment(s) completed.
+                        </p>
+                      
+                    </div>
+                    <div class="bg-green-100 p-2 sm:p-3 rounded-full">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Charts -->
     <div class="max-w-7xl mx-auto mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         <!-- Bar Chart -->
@@ -78,7 +124,7 @@
     <!-- Recent Pending Appointments -->
     <div class="max-w-7xl mx-auto mt-6 sm:mt-8">
         <div class="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-slate-300">
-            <h3 class="text-base sm:text-lg font-medium text-gray-700 mb-4">Recent Pending Appointments</h3>
+            <h3 class="text-base sm:text-lg font-medium text-gray-700 mb-4">Recent Upcoming Appointments</h3>
             <div class="overflow-x-auto">
                 <table class="w-full text-xs sm:text-sm text-left text-gray-500">
                     <thead class="text-xs uppercase bg-gray-100">
@@ -233,6 +279,14 @@
             }
             td:last-child {
                 border-bottom: none;
+            }
+            /* Notification card mobile adjustments */
+            .notification-card .space-y-4 > div {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .notification-card .rounded-full {
+                margin-top: 0.5rem;
             }
         }
     </style>
