@@ -21,6 +21,14 @@ class ManageInvice extends Component
         $this->resetPage();
     }
 
+    public function deleteInvoice($invoiceId)
+    {
+        $invoice = Invoice::findOrFail($invoiceId);
+        $invoice->delete();
+        
+        session()->flash('message', 'Invoice deleted successfully.');
+    }
+
     public function render()
     {
         return view('livewire.admin.manage-invice', [
@@ -33,4 +41,3 @@ class ManageInvice extends Component
         ]);
     }
 }
-

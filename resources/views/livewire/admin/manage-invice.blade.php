@@ -7,6 +7,12 @@
         </div>
     </div>
 
+    @if (session()->has('message'))
+        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+            {{ session('message') }}
+        </div>
+    @endif
+
     <div class="bg-white rounded-lg shadow overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
@@ -25,15 +31,18 @@
                             Amount
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            service Date
+                            Service Date
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
                         </th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @forelse($invoices as $invoice)
+                    @forelse($invoices as $index => $invoice)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            {{ $invoice->index+1 }}
+                            {{ $index + 1 }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             {{ $invoice->serviceFee->name }}
@@ -46,6 +55,15 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             {{ $invoice->service_date->format('M d, Y') }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <button 
+                                wire:click="deleteInvoice({{ $invoice->id }})"
+                                wire:confirm="Are you sure you want to delete this invoice?"
+                                class="bg-red-600 text-white px-2 py-1 sm:px-3 sm:py-1 rounded-md text-xs sm:text-sm hover:bg-red-700"
+                            >
+                                Delete
+                            </button>
                         </td>
                     </tr>
                     @empty
