@@ -56,19 +56,25 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             {{ $invoice->service_date->format('M d, Y') }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <button 
-                                wire:click="deleteInvoice({{ $invoice->id }})"
-                                wire:confirm="Are you sure you want to delete this invoice?"
-                                class="bg-red-600 text-white px-2 py-1 sm:px-3 sm:py-1 rounded-md text-xs sm:text-sm hover:bg-red-700"
-                            >
-                                Delete
-                            </button>
+                        <td class="px-4 sm:px-6 py-3">
+                            <div class="flex items-center space-x-2">
+                                <a href="{{ route('admin.invoice', ['appointmentId' => $invoice->appointment->id, 'selectedServiceFees' => $invoice->serviceFee->id]) }}"
+                                  class="font-medium bg-orange-500 text-white px-4 py-1 rounded-md hover:bg-orange-600">
+                                    View
+                                </a>
+                                <button 
+                                    wire:click="deleteInvoice({{ $invoice->id }})"
+                                    wire:confirm="Are you sure you want to delete this invoice?"
+                                    class="bg-red-600 text-white px-2 py-1 sm:px-3 sm:py-1 rounded-md text-xs sm:text-sm hover:bg-red-700"
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">
                             No invoices found
                         </td>
                     </tr>
