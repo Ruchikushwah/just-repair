@@ -1,9 +1,21 @@
 <div>
-    <div class="flex flex-col sm:flex-row sm:justify-between gap-4">
-        <a href="{{ route('admin.manage-appointment') }}"
-            class="font-medium bg-teal-600 text-white px-4 py-2 rounded-md text-center hover:bg-teal-700 transition-all">
+    <div class="relative group">
+        <button class="font-medium bg-teal-600 text-white px-4 py-2 rounded-md text-center hover:bg-teal-700 transition-all flex items-center gap-2">
             Back
-        </a>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </button>
+        <div class="absolute hidden group-hover:block mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-20">
+            <a href="{{ route('admin.manage-appointment') }}"
+               class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-100 hover:text-teal-900">
+                Manage Appointments
+            </a>
+            <a href="{{ route('admin.manage-invoice') }}"
+               class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-100 hover:text-teal-900">
+                Manage Invoices
+            </a>
+        </div>
     </div>
     <div class="max-w-4xl w-full mx-auto p-8 border border-gray-300 rounded-xl font-sans">
         <div class="flex justify-between items-center">
