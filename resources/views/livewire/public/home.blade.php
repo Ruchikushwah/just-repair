@@ -350,7 +350,7 @@ body {
                 @endforeach
             </div>
             <div class="text-center mt-12">
-                <a href="#all-services"
+                <a href="#services"
                     class="inline-flex items-center text-[#535C91] hover:text-[#414A78] font-medium transition-colors">
                     View All Services <i class="fas fa-arrow-right ml-2"></i>
                 </a>
