@@ -36,7 +36,6 @@ class Dashboard extends Component
           
             $this->pendingAppointments = Appointment::where('status', 'pending')
                 ->orderBy('created_at', 'desc')
-                ->take(5)
                 ->get() ?? collect([]);
             $this->doneAppointments = Appointment::where('status', 'done') 
                 ->orderBy('created_at', 'desc')
