@@ -1,3 +1,4 @@
+<div>
 <div class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
     <div class="max-w-md w-full bg-white rounded-lg shadow-xl overflow-hidden">
         <div class="bg-[#535C91] px-6 py-8 text-white text-center">
@@ -59,7 +60,7 @@
             </div>
             
             <div class="border-t pt-6 flex flex-col sm:flex-row justify-between gap-3">
-                <a href="{{ route('home') }}" class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition text-center">
+                <a href="{{ route('homepage') }}" class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition text-center">
                     <i class="fas fa-home mr-2"></i> Back to Home
                 </a>
                 <a href="{{ route('my-booking') }}" class="px-6 py-2 bg-[#535C91] text-white rounded-lg font-medium hover:bg-[#414A78] transition text-center">
@@ -171,3 +172,4 @@
         }
     }
 </style>
+</div>

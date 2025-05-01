@@ -7,16 +7,28 @@ use Livewire\Component;
 
 class BookingSuccess extends Component
 {
-    public $jobNumber;
     public $appointment;
+    public $jobNumber;
 
     public function mount($jobNumber)
     {
         $this->jobNumber = $jobNumber;
-        $this->appointment = Appointment::with(['service', 'serviceOn'])
-            ->where('job_no', $jobNumber)
+        $this->appointment = Appointment::where('job_no', $jobNumber)
+            ->with(['service', 'serviceOn'])
             ->firstOrFail();
     }
+    //     if (!session('booking_success')) {
+    //         return redirect()->route('homepage');
+    //     }
+
+    //     $this->appointment = Appointment::find(session('appointment_id'));
+    //     $this->jobNumber = session('job_number');
+
+    //     // Clear session after retrieving data
+    //     session()->forget(['booking_success', 'appointment_id', 'job_number']);
+    
+
+
 
     public function render()
     {
@@ -24,3 +36,4 @@ class BookingSuccess extends Component
             ->layout('components.layouts.app');
     }
 }
+

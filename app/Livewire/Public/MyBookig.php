@@ -13,7 +13,7 @@ class MyBookig extends Component
     {
         // Redirect to login if not authenticated
         if (!Auth::check()) {
-            return redirect()->route('auth.login');
+            return redirect()->route('login');
         }
     }
     public function render()

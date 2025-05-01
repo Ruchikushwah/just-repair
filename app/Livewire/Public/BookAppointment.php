@@ -28,7 +28,7 @@ class BookAppointment extends Component
     #[Url]
     public $serviceOnId;
 
-    public function mount($serviceId = null, $serviceOnId = null)
+    public function mount($serviceId = null, $serviceOnId = null , $requirements = null)
     {
         
         if ($serviceId) {
@@ -39,19 +39,19 @@ class BookAppointment extends Component
             }
         }
 
-        $this->serviceOnId = Service::find($serviceOnId);
-
-        if ($this->serviceOnId) {
-            $this->selectedServiceOn = ServiceOn::find($this->serviceOnId);
+        $this->service = Service::with(['serviceOn', 'requirements'])->findOrFail($serviceId);
+        
+        if ($serviceOnId) {
+            $this->selectedServiceOn = ServiceOn::findOrFail($serviceOnId);
         }
 
-        $this->requirementsData = Requirement::where('service_id', $serviceId)->get();
-
-        if ($this->requirements) {
-            $this->requirementId = explode(',', $this->requirements);
-            $this->selectedRequirements = Requirement::whereIn('id', $this->requirementId)->get();
+        if ($requirements) {
+            $requirementIds = explode(',', $requirements);
+            $this->selectedRequirements = Requirement::whereIn('id', $requirementIds)->get();
         }
     }
+
+    
     public function toggleRequirement($id)
     {
         if (in_array($id, $this->requirementId)) {
@@ -63,54 +63,77 @@ class BookAppointment extends Component
         }
     }
     public function bookAppointment()
-    {
-        $this->validate([
-            'serviceOnId' => 'required|exists:service_ons,id',
-            'requirementId' => 'required|array|min:1',
-            'name' => 'required|string|max:255',
-            'contact_no' => 'required|regex:/^[0-9]{10}$/',
-            'address' => 'required|string|max:500',
-            'landmark' => 'nullable|string|max:255',
-            'city' => 'required|string|max:100',
-            'state' => 'required|string|max:100',
+{
+    try {
+        $validated = $this->validate([
+            'name' => 'required|min:3',
+            'contact_no' => 'required|digits:10',
+            'address' => 'required|min:5',
+            'city' => 'required',
+            'state' => 'required',
             'pincode' => 'required|digits:6',
-            'pref_date' => 'required|date',
+            'pref_date' => 'required|date|after_or_equal:today',
             'time' => 'required',
         ]);
 
-        Appointment::create([
-            'user_id' => Auth::id(),
-            'service_on_id' => $this->serviceOnId,
-            'requirement_id' => implode(',', $this->requirementId),
-            'job_no' => 'JR-' . strtoupper(Str::random(8)),
+        // Log validation data for debugging
+        \Log::info('Validation passed', $validated);
+
+        // Generate unique job number
+        $jobNo = 'JR' . date('ymd') . strtoupper(Str::random(4));
+
+        // Create appointment with error checking
+        $appointmentData = [
+            'job_no' => $jobNo,
+            'user_id' => Auth::id() ?? null,
+            'service_id' => $this->service->id ?? null,
+            'service_on_id' => $this->selectedServiceOn?->id ?? null,
+            'pref_date' => $this->pref_date,
+            'time' => $this->time,
             'name' => $this->name,
             'contact_no' => $this->contact_no,
             'address' => $this->address,
-            'landmark' => $this->landmark,
+            'landmark' => $this->landmark ?? null,
             'city' => $this->city,
             'state' => $this->state,
             'pincode' => $this->pincode,
-            'pref_date' => $this->pref_date,
-            'time' => $this->time,
-            'status' => 'process',
-        ]);
+            'status' => 'pending',
+        ];
+
+        // Log appointment data
+        \Log::info('Creating appointment with data:', $appointmentData);
+
+        $appointment = Appointment::create($appointmentData);
+
+        if (!$appointment) {
+            throw new \Exception('Failed to create appointment');
+        }
+
+        // Attach requirements if any
+        if (!empty($this->selectedRequirements)) {
+            $appointment->requirements()->attach(
+                collect($this->selectedRequirements)->pluck('id')->toArray()
+            );
+        }
 
         session()->flash('success', 'Appointment booked successfully!');
+        
+        // Add logging before redirect
+        \Log::info('Redirecting to success page', ['jobNumber' => $jobNo]);
+        
+        return redirect()->route('booking.success', ['jobNumber' => $jobNo]);
 
-        $this->reset([
-            'serviceOnId',
-            'requirementId',
-            'name',
-            'contact_no',
-            'address',
-            'landmark',
-            'city',
-            'state',
-            'pincode',
-            'pref_date',
-            'time'
+    } catch (\Exception $e) {
+        // Log the error
+        \Log::error('Appointment booking failed', [
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
         ]);
+        
+        session()->flash('error', 'Failed to book appointment: ' . $e->getMessage());
+        return null;
     }
+}
     public function render()
     {
         return view('livewire.public.book-appointment', [

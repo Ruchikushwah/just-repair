@@ -8,6 +8,7 @@
     <meta name="keywords" content="appliance repair, AC repair, refrigerator repair, washing machine repair, water purifier, geyser repair">
 
     <title>{{ $title ?? env('APP_NAME')}} - Home Appliance Repair Services</title>
+    <link rel="shortcut icon" href="{{ asset('H.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -69,7 +70,7 @@
 <body class="bg-gray-50">
     <x-header />
     
-    <main class="">
+    <main class="container mx-auto mt-16">
         {{ $slot }}
     </main>
     
@@ -86,9 +87,10 @@
                 <span class="text-xs mt-1">Home</span>
             </a>
 
-            <a href="{{ route('my-booking') }}" class="flex flex-col items-center hover:text-[#535C91] footer-icon">
-                <i class="fa-regular fa-calendar-check text-lg"></i>
-                <span class="text-xs mt-1">Bookings</span>
+            <a href="{{ Auth::check() && auth()->user()->isAdmin ? route('admin.dashboard') : route('my-booking') }}"
+                class="flex flex-col items-center hover:text-[#535C91] footer-icon">
+                <i class="fa-regular {{ Auth::check() && auth()->user()->isAdmin ? 'fa-user-shield' : 'fa-calendar-check' }} text-lg"></i>
+                <span class="text-xs mt-1">{{ Auth::check() && auth()->user()->isAdmin ? 'Admin Panel' : 'Bookings' }}</span>
             </a>
 
             <a href="#services" class="flex flex-col items-center hover:text-[#535C91] footer-icon">

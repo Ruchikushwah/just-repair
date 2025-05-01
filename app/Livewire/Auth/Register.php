@@ -34,7 +34,7 @@ class Register extends Component
 
         // Flash message & redirect
         session()->flash('success', 'Registration successful! You can now log in.');
-        return redirect()->route('auth.login');
+        return redirect()->route('login');
     }
 
     public function render()

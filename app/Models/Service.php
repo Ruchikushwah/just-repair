@@ -25,6 +25,15 @@ class Service extends Model
     {
         return $this->hasMany(ServiceFees::class);
     }
+    
+    public function serviceFees()
+    {
+        return $this->hasMany(ServiceFees::class);
+    }
+    public function serviceOn()
+    {
+        return $this->hasMany(ServiceOn::class);
+    }
 
     public function requirements()
     {

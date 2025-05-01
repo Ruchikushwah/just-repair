@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Livewire\Admin;
 
 use App\Models\Requirement;
@@ -26,9 +25,14 @@ class ManageRequirement extends Component
 
     #[Validate('required|string|max:255')]
     public $requirement = '';
+
     public $requirementInputs = [];
     public $services = [], $service_ons = [];
     public $search = '';
+    
+   
+    public $editingRequirementId = null;
+    public $editingRequirement = '';
 
     public function save()
     {
@@ -52,12 +56,10 @@ class ManageRequirement extends Component
         $this->loadRequirements();
     }
 
-    // Load requirements
     public function loadRequirements()
     {
         Requirement::with('service', 'serviceOn')->get();
     }
-
 
     public function deleteRequirement($id)
     {
@@ -79,26 +81,15 @@ class ManageRequirement extends Component
         $this->loadRequirements();
     }
 
-    // public function mount()
-    // {
-    //     $this->services = Service::all();
-    // }
-
     public function updatedServiceId($id)
     {
         $this->service_ons = ServiceOn::where("service_id", $id)->get();
     }
 
-    // public function addRequirement()
-    // {
-    //     $this->requirements[] = $this->requirement;
-    //     $this->requirement = '';
-    // }
-
     public function removeRequirement($index)
     {
-        unset($this->requirementInputs[$index]); // Remove the requirement at the given index
-        $this->requirementInputs = array_values($this->requirementInputs); // Reindex the array
+        unset($this->requirementInputs[$index]);
+        $this->requirementInputs = array_values($this->requirementInputs);
     }
 
     public function deleteReq(Requirement $req)
@@ -106,17 +97,53 @@ class ManageRequirement extends Component
         $req->delete();
         $this->dispatch('refresh-requirement');
     }
-    #[Title('Admin |Manage Requirement')]
+
+    public function editRequirement($id)
+    {
+        $requirement = Requirement::findOrFail($id);
+        $this->editingRequirementId = $id;
+        $this->service_id = $requirement->service_id;
+        $this->service_on_id = $requirement->service_on_id;
+        $this->editingRequirement = $requirement->requirement;
+
+       
+        $this->service_ons = ServiceOn::where("service_id", $this->service_id)->get();
+
+      
+        $this->requirementInputs = [$requirement->requirement];
+    }
+
+ 
+    public function updateRequirement()
+    {
+        $this->validate([
+            'service_id' => 'required|exists:services,id',
+            'service_on_id' => 'required|exists:service_ons,id',
+            'requirementInputs' => 'required|array|min:1',
+        ]);
+
+        $requirement = Requirement::findOrFail($this->editingRequirementId);
+        $requirement->update([
+            'service_id' => $this->service_id,
+            'service_on_id' => $this->service_on_id,
+            'requirement' => $this->requirementInputs[0],
+        ]);
+
+        session()->flash('message', 'Requirement updated successfully.');
+
+        $this->reset('service_id', 'service_on_id', 'requirementInputs', 'editingRequirementId', 'editingRequirement');
+        $this->loadRequirements();
+    }
+
+    #[Title('Admin | Manage Requirement')]
     public function render()
     {
         $requirements = Requirement::with(['service', 'serviceOn'])
             ->latest()
             ->when($this->search, function ($query) {
-                $query->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('description', 'like', '%' . $this->search . '%');
+                $query->where('requirement', 'like', '%' . $this->search . '%');
             })
             ->paginate(10);
-
 
         return view('livewire.admin.manage-requirement', [
             'requirements' => $requirements

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Appointment extends Model
 {
@@ -25,7 +26,9 @@ class Appointment extends Model
         'city',
         'state',
         'pincode',
-        'status'
+        'status',
+        'job_number'
+
     ];
 
     public function user()
@@ -47,8 +50,13 @@ class Appointment extends Model
     {
         return $this->belongsTo(Requirement::class);
     }
-    // public function serviceFees()
-    // {
-    //     return $this->hasMany(ServiceFees::class, 'service_id', 'service_id');
-    // }
+    public function serviceFees()
+    {
+        return $this->hasMany(ServiceFees::class, 'service_id', 'service_id');
+    }
+    public function requirements(): BelongsToMany
+    {
+        return $this->belongsToMany(Requirement::class, 'appointment_requirements', 'appointment_id', 'requirement_id')
+            ->withTimestamps();
+    }
 }

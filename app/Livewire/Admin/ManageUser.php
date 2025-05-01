@@ -27,6 +27,7 @@ class ManageUser extends Component
     public function getFilteredUsers()
     {
         return User::query()
+        ->where('isAdmin', false)
             ->when($this->filter !== 'all', function ($query) {
                 match ($this->filter) {
                     'today' => $query->whereDate('created_at', Carbon::today()),
@@ -39,6 +40,19 @@ class ManageUser extends Component
             ->latest()
             ->paginate(10);
     }
+    public function deleteUser($userId)
+    {
+        $user = User::findOrFail($userId);
+        
+        if ($user->isAdmin) {
+            session()->flash('error', 'Cannot delete an admin user.');
+            return;
+        }
+
+        $user->delete();
+        session()->flash('message', 'User deleted successfully.');
+    }
+    
     #[Title('Admin | Manage User')]
     public function render()
     {

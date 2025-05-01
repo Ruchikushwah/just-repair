@@ -15,16 +15,18 @@ class ViewService extends Component
     public $service;
     public $serviceOnId;
     public $requirements = [];
-    public $requirementId = []; // Initialize as an array
+    public $selectedRequirements = [];
+    public $weekDays;
+    public $timeSlots = [];
+    
     public $name = '';
     public $contact_no, $address, $landmark, $city, $state, $pincode, $pref_date, $time;
-    public $weekDays;
-    public $selectedRequirements = []; // Initialize as an array
 
     public function mount($id)
     {
         $this->service = Service::with('serviceOn', 'serviceFees')->findOrFail($id);
         $this->weekDays = $this->generateWeekDays();
+        $this->timeSlots = $this->generateTimeSlots();
     }
 
     public function generateWeekDays()
@@ -40,32 +42,87 @@ class ViewService extends Component
         return $days;
     }
 
+    public function generateTimeSlots()
+    {
+        $slots = [];
+        $start = Carbon::createFromTime(9, 0); // 9:00 AM
+        $end = Carbon::createFromTime(17, 0); // 5:00 PM
+
+        while ($start <= $end) {
+            $slots[] = $start->format('H:i');
+            $start->addHour();
+        }
+
+        return $slots;
+    }
+
+    public function selectTime($time)
+    {
+        $this->time = $this->time === $time ? null : $time; // Toggle selection
+    }
+
     public function updatedServiceOnId($value)
     {
-        // Fetch requirements based on the selected serviceOnId
         $this->requirements = Requirement::where('service_on_id', $value)->get();
-        $this->requirementId = []; // Reset requirementId
+        $this->selectedRequirements = [];
     }
 
     public function toggleRequirement($requirementId)
     {
         if (in_array($requirementId, $this->selectedRequirements)) {
-            // Remove the requirement if it already exists
             $this->selectedRequirements = array_filter($this->selectedRequirements, fn($id) => $id != $requirementId);
         } else {
-            // Add the requirement if it doesn't exist
             $this->selectedRequirements[] = $requirementId;
         }
-
-        // Debugging: Log the selected requirements
-        logger('Selected Requirements in ViewService:', $this->selectedRequirements);
     }
 
-
-    public function GetServiceOnId()
+    public function bookAppointment()
     {
-        // Return the selected requirements (if needed)
-        return $this->selectedRequirements;
+        try {
+            $validated = $this->validate([
+                'name' => 'required|min:3|max:255',
+                'contact_no' => 'required|digits:10',
+                'address' => 'required|min:5|max:500',
+                'landmark' => 'required|min:3|max:255',
+                'city' => 'required|min:2|max:100',
+                'state' => 'required|min:2|max:100',
+                'pincode' => 'required|digits:6',
+                'pref_date' => 'required|date|after_or_equal:today',
+                'time' => 'required',
+                'serviceOnId' => 'required|exists:service_ons,id',
+                'selectedRequirements' => 'required|array|min:1',
+            ]);
+
+            $jobNo = 'JR' . date('ymd') . strtoupper(Str::random(4));
+
+            $appointment = Appointment::create([
+                'job_no' => $jobNo,
+                'user_id' => Auth::id() ?? null,
+                'service_id' => $this->service->id,
+                'service_on_id' => $this->serviceOnId,
+                'pref_date' => $this->pref_date,
+                'time' => $this->time,
+                'name' => $this->name,
+                'contact_no' => $this->contact_no,
+                'address' => $this->address,
+                'landmark' => $this->landmark,
+                'city' => $this->city,
+                'state' => $this->state,
+                'pincode' => $this->pincode,
+                'status' => 'pending',
+            ]);
+
+            if (!empty($this->selectedRequirements)) {
+                $appointment->requirements()->attach($this->selectedRequirements);
+            }
+
+            session()->flash('success', 'Appointment booked successfully!');
+            return redirect()->route('booking.success', ['jobNumber' => $jobNo]);
+
+        } catch (\Exception $e) {
+            \Log::error('Appointment booking failed', ['error' => $e->getMessage()]);
+            session()->flash('error', 'Failed to book appointment: ' . $e->getMessage());
+        }
     }
 
     public function render()

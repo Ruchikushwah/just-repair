@@ -5,6 +5,7 @@ namespace App\Livewire\Auth;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
 
 class Login extends Component
 {
@@ -19,6 +20,14 @@ class Login extends Component
     public function login()
     {
         $this->validate();
+        $user = User::where('email', $this->email)->first();
+
+        if (!$user) {
+         
+            throw ValidationException::withMessages([
+                'email' => ['Your email is incorrect, please try again.'],
+            ]);
+        }
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
             
@@ -32,8 +41,9 @@ class Login extends Component
             return redirect()->route('homepage'); 
         } else {
             
-            session()->flash('error', 'The provided credentials are incorrect.');
-            return;
+            throw ValidationException::withMessages([
+                'password' => ['Your password is incorrect, please try again.'],
+            ]);
         }
     }
 

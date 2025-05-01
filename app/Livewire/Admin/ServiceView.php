@@ -3,7 +3,6 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Service;
-
 use App\Models\ServiceFees;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -14,32 +13,54 @@ class ServiceView extends Component
     public $service;
     public $serviceFeeName;
     public $serviceFeeAmount;
+    public $editingFeeId = null;
 
     public function mount($serviceId)
     {
-        $this->service = Service::with(['serviceOn', 'requirements', 'serviceFees'])->findOrFail($serviceId);
+        $this->service = Service::with(['service_ons', 'requirements', 'service_fees'])->findOrFail($serviceId);
     }
 
     public function addServiceFee()
     {
-        // Ensure the validation matches the property names
         $this->validate([
-            'serviceFeeName' => 'required|string|max:255', // Corrected to match the property name
-            'serviceFeeAmount' => 'required|numeric|min:0', // Corrected to match the property name
+            'serviceFeeName' => 'required|string|max:255',
+            'serviceFeeAmount' => 'required|numeric|min:0',
         ]);
 
-        // Create the Service Fee with the correct data
-        ServiceFees::create([
-            'name' => $this->serviceFeeName,
-            'fees' => $this->serviceFeeAmount,
-            'service_id' => $this->service->id,
-        ]);
+        if ($this->editingFeeId) {
+            // Update existing fee
+            $fee = ServiceFees::findOrFail($this->editingFeeId);
+            $fee->update([
+                'name' => $this->serviceFeeName,
+                'fees' => $this->serviceFeeAmount,
+            ]);
+            session()->flash('message', 'Service Fee updated successfully.');
+        } else {
+            // Create new fee
+            ServiceFees::create([
+                'name' => $this->serviceFeeName,
+                'fees' => $this->serviceFeeAmount,
+                'service_id' => $this->service->id,
+            ]);
+            session()->flash('message', 'Service Fee added successfully.');
+        }
 
+        $this->reset(['serviceFeeName', 'serviceFeeAmount', 'editingFeeId']);
+    }
 
-        $this->reset(['serviceFeeName', 'serviceFeeAmount']);
+    public function editServiceFee($feeId)
+    {
+        $fee = ServiceFees::findOrFail($feeId);
+        $this->serviceFeeName = $fee->name;
+        $this->serviceFeeAmount = $fee->fees;
+        $this->editingFeeId = $feeId;
+    }
 
-        // Flash a success message
-        session()->flash('message', 'Service Fee added successfully.');
+    public function deleteServiceFee($feeId)
+    {
+        $fee = ServiceFees::findOrFail($feeId);
+        $fee->delete();
+        session()->flash('message', 'Service Fee deleted successfully.');
     }
 
     public function render()

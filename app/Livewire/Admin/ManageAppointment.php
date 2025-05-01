@@ -63,7 +63,7 @@ class ManageAppointment extends Component
         return $query->paginate(10);
     }
 
-    #[Title('Admin |Manage Appointment')]
+    #[Title(content: 'Admin |Manage Appointment')]
     public function render()
     {
         return view('livewire.admin.manage-appointment', [

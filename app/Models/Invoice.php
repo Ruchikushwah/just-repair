@@ -12,7 +12,15 @@ class Invoice extends Model
         'servicefees_id',
         'appointment_id',
         'total_amount',
+        'invoice_date',
+        'service_date',
     ];
+
+    protected $casts = [
+        'invoice_date' => 'datetime',
+        'service_date' => 'datetime',
+    ];
+
     public function serviceFee()
     {
         return $this->belongsTo(ServiceFees::class, 'servicefees_id');
